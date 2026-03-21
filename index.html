@@ -841,15 +841,37 @@ function handlePhoneInput(v) {
 }
 
 async function sendOTP() {
-  const phone = state.loginPhone;
-  if(phone.replace(/\D/g,'').length < 10) { setState({loginErr:'Số điện thoại không hợp lệ'}); return; }
+  const phone = state.loginPhone.replace(/\D/g,'');
+  if(phone.length < 10) { setState({loginErr:'Số điện thoại không hợp lệ'}); return; }
   setState({loginLoading:true, loginErr:''});
-  await sleep(800);
-  const u = USERS.find(u=>u.phone===phone);
+
+  // Tìm user từ Supabase trước, fallback local
+  let u = null;
+  try {
+    const {data} = await supabase.from('vos_users').select('*').eq('phone', phone).eq('active', true).limit(1);
+    if(data && data.length > 0) {
+      u = {id:data[0].id, name:data[0].name, phone:data[0].phone, role:data[0].role, branch:data[0].branch, dept:data[0].dept, avatar:data[0].avatar};
+    }
+  } catch(e) {}
+  if(!u) u = USERS.find(x=>x.phone===phone);
   if(!u) { setState({loginLoading:false, loginErr:'Số điện thoại chưa đăng ký trong hệ thống'}); return; }
-  const code = u.otp; // use preset OTP for demo
+
+  // Tạo OTP 6 số ngẫu nhiên
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+
+  // Lưu OTP vào Supabase (hết hạn sau 5 phút)
+  try {
+    await supabase.from('vos_otp').insert({
+      phone,
+      code,
+      expires_at: new Date(Date.now() + 5*60*1000).toISOString(),
+      used: false
+    });
+  } catch(e) { console.warn('OTP save error:', e); }
+
   setState({loginLoading:false, loginStep:'otp', loginGenOtp:code, loginPending:u, loginOtp:['','','','','',''], loginCountdown:60});
   startCountdown();
+  console.log('[VOS] OTP đã gửi:', code, '(đang hiển thị trong console để test)');
 }
 
 function startCountdown() {
@@ -877,9 +899,38 @@ function handleOtpKey(i, e) {
 
 async function verifyOTP(code) {
   setState({loginLoading:true, loginErr:''});
-  await sleep(600);
-  if(code === state.loginGenOtp) {
-    setState({loginLoading:false, user:state.loginPending});
+  const phone = state.loginPending?.phone;
+
+  // Verify OTP từ Supabase
+  let valid = (code === state.loginGenOtp);
+  try {
+    const now = new Date().toISOString();
+    const {data} = await supabase.from('vos_otp')
+      .select('id,code')
+      .eq('phone', phone)
+      .eq('code', code)
+      .eq('used', false)
+      .gte('expires_at', now)
+      .order('created_at', {ascending:false})
+      .limit(1);
+    if(data && data.length > 0) {
+      valid = true;
+      // Đánh dấu OTP đã dùng
+      await supabase.from('vos_otp').update({used:true}).eq('id', data[0].id);
+    }
+  } catch(e) { console.warn('OTP verify error:', e); }
+
+  if(valid) {
+    // Lưu session
+    try {
+      await supabase.from('vos_sessions').insert({
+        user_id: state.loginPending?.id,
+        device: navigator.userAgent.substring(0,100)
+      });
+    } catch(e) {}
+    const loggedUser = state.loginPending;
+setState({loginLoading:false, user:loggedUser});
+loadUserData(loggedUser);
   } else {
     setState({loginLoading:false, loginErr:'Mã OTP không đúng', loginOtp:['','','','','','']});
     document.getElementById('otp0')?.focus();
@@ -888,11 +939,29 @@ async function verifyOTP(code) {
 
 function navTo(page) { setState({page, selDoc:null}); }
 
-function openDoc(id) { setState({selDoc:id, page:'docs'}); }
+async function openDoc(id) {
+  setState({selDoc:id, page:'docs'});
+  const userId = state.user?.id;
+  const branch = state.user?.branch;
+  if(!userId) return;
+  try {
+    await supabase.from('vos_doc_reads').insert({user_id:userId, doc_id:id, branch});
+  } catch(e) {}
+}
 
-function toggleBookmark(id) {
+async function toggleBookmark(id) {
   const bm = state.bookmarks;
-  setState({bookmarks: bm.includes(id) ? bm.filter(x=>x!==id) : [...bm,id]});
+  const userId = state.user?.id;
+  const newBm = bm.includes(id) ? bm.filter(x=>x!==id) : [...bm,id];
+  setState({bookmarks: newBm});
+  if(!userId) return;
+  try {
+    if(bm.includes(id)) {
+      await supabase.from('vos_bookmarks').delete().eq('user_id',userId).eq('doc_id',id);
+    } else {
+      await supabase.from('vos_bookmarks').insert({user_id:userId, doc_id:id});
+    }
+  } catch(e) { console.warn('Bookmark sync error:', e); }
 }
 
 function handleSearch(v) { setState({search:v, searchOpen:!!v}); }
@@ -912,6 +981,23 @@ function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
 /* ══════════════════════════════════════
    RENDER ENGINE
 ══════════════════════════════════════ */
+
+async function loadUserData(user) {
+  if(!user) return;
+  try {
+    const {data} = await supabase.from('vos_bookmarks').select('doc_id').eq('user_id', user.id);
+    if(data) setState({bookmarks: data.map(x=>x.doc_id)});
+  } catch(e) {}
+
+  // Load users mới nhất từ Supabase
+  try {
+    const {data} = await supabase.from('vos_users').select('*').eq('active', true);
+    if(data && data.length > 0) {
+      // Update USERS array
+      window._vosUsers = data;
+    }
+  } catch(e) {}
+}
 function render() {
   const app = document.getElementById('app');
   if(!state.user) {
