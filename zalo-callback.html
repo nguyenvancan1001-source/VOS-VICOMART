@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Zalo Callback</title></head>
+<body>
+<script>
+// Nhận code từ Zalo, gửi lên Edge Function để exchange token
+const params = new URLSearchParams(location.search);
+const code = params.get('code');
+const oaId = params.get('oa_id');
+
+if (code) {
+  fetch('https://oeqvwhawayzsfxmhlfch.supabase.co/functions/v1/vos-otp?action=callback&code=' + code + '&oa_id=' + (oaId||''))
+    .then(r => r.text())
+    .then(html => {
+      document.body.innerHTML = html;
+    })
+    .catch(e => {
+      document.body.innerHTML = '<h2>❌ Lỗi: ' + e.message + '</h2>';
+    });
+} else {
+  document.body.innerHTML = '<h2>❌ Không nhận được code từ Zalo</h2>';
+}
+</script>
+<p>Đang xử lý kết nối Zalo...</p>
+</body>
+</html>
