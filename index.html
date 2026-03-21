@@ -842,36 +842,25 @@ function handlePhoneInput(v) {
 
 async function sendOTP() {
   const phone = state.loginPhone.replace(/\D/g,'');
-  if(phone.length < 10) { setState({loginErr:'Số điện thoại không hợp lệ'}); return; }
+  if(phone.length < 9) { setState({loginErr:'Số điện thoại không hợp lệ'}); return; }
   setState({loginLoading:true, loginErr:''});
 
-  // Tìm user từ Supabase trước, fallback local
-  let u = null;
-  try {
-    const {data} = await supabase.from('vos_users').select('*').eq('phone', phone).eq('active', true).limit(1);
-    if(data && data.length > 0) {
-      u = {id:data[0].id, name:data[0].name, phone:data[0].phone, role:data[0].role, branch:data[0].branch, dept:data[0].dept, avatar:data[0].avatar};
-    }
-  } catch(e) {}
-  if(!u) u = USERS.find(x=>x.phone===phone);
+  // Tìm user
+  const u = (window._vosUsers||[]).concat(USERS).find(x=>x.phone===phone);
   if(!u) { setState({loginLoading:false, loginErr:'Số điện thoại chưa đăng ký trong hệ thống'}); return; }
 
-  // Tạo OTP 6 số ngẫu nhiên
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  // Tạo OTP
+  const otp = String(Math.floor(100000 + Math.random() * 900000));
+  const expiresAt = new Date(Date.now() + 300000).toISOString();
 
-  // Lưu OTP vào Supabase (hết hạn sau 5 phút)
+  // Lưu OTP vào Supabase
   try {
-    await supabase.from('vos_otp').insert({
-      phone,
-      code,
-      expires_at: new Date(Date.now() + 5*60*1000).toISOString(),
-      used: false
-    });
+    await supabase.from('vos_otp').insert({ phone, code: otp, expires_at: expiresAt, used: false });
   } catch(e) { console.warn('OTP save error:', e); }
 
-  setState({loginLoading:false, loginStep:'otp', loginGenOtp:code, loginPending:u, loginOtp:['','','','','',''], loginCountdown:60});
+  setState({loginLoading:false, loginStep:'otp', loginGenOtp:otp, loginPending:u, loginOtp:['','','','','',''], loginCountdown:60});
   startCountdown();
-  console.log('[VOS] OTP đã gửi:', code, '(đang hiển thị trong console để test)');
+  console.log('[VOS] OTP:', otp, '(hiển thị để test - sẽ gửi Zalo khi có kết nối)');
 }
 
 function startCountdown() {
@@ -900,34 +889,32 @@ function handleOtpKey(i, e) {
 async function verifyOTP(code) {
   setState({loginLoading:true, loginErr:''});
   const phone = state.loginPending?.phone;
+
+  // Verify qua Supabase
+  let valid = false;
   try {
-    const res = await fetch('https://oeqvwhawayzsfxmhlfch.supabase.co/functions/v1/vos-otp?action=verify', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({phone, otp:code})
-    });
-    const data = await res.json();
-    if(data.ok) {
-      const loggedUser = state.loginPending;
-      setState({loginLoading:false, user:loggedUser});
-      loadUserData(loggedUser);
-      return;
+    const now = new Date().toISOString();
+    const {data} = await supabase.from('vos_otp')
+      .select('id').eq('phone', phone).eq('code', code)
+      .eq('used', false).gte('expires_at', now)
+      .order('created_at', {ascending:false}).limit(1);
+    if(data && data.length > 0) {
+      valid = true;
+      await supabase.from('vos_otp').update({used:true}).eq('id', data[0].id);
     }
-    // Fallback check local OTP (nếu edge fn fail)
-    if(code === state.loginGenOtp && state.loginGenOtp) {
-      setState({loginLoading:false, user:state.loginPending});
-      loadUserData(state.loginPending);
-      return;
-    }
-    setState({loginLoading:false, loginErr:data.error||'Mã OTP không đúng', loginOtp:['','','','','','']});
+  } catch(e) { console.warn('verify error:', e); }
+
+  // Fallback: check local OTP
+  if(!valid && code === state.loginGenOtp && state.loginGenOtp) valid = true;
+
+  if(valid) {
+    try { await supabase.from('vos_sessions').insert({user_id: state.loginPending?.id, device: navigator.userAgent.substring(0,100)}); } catch(e) {}
+    const u = state.loginPending;
+    setState({loginLoading:false, user:u});
+    loadUserData(u);
+  } else {
+    setState({loginLoading:false, loginErr:'Mã OTP không đúng', loginOtp:['','','','','','']});
     document.getElementById('otp0')?.focus();
-  } catch(e) {
-    if(code === state.loginGenOtp && state.loginGenOtp) {
-      setState({loginLoading:false, user:state.loginPending});
-      loadUserData(state.loginPending);
-    } else {
-      setState({loginLoading:false, loginErr:'Lỗi kết nối: '+e.message, loginOtp:['','','','','','']});
-      document.getElementById('otp0')?.focus();
-    }
   }
 }
 
