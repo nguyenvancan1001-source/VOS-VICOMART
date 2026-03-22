@@ -1575,6 +1575,42 @@ const DOCS_HTML = {
 </div>
 
 <!-- FOOTER -->
+
+<script>
+/* ── SSO Auto-login từ admin.vicomart.vn ── */
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var ssoUser = params.get('sso');
+  if (!ssoUser) return;
+  history.replaceState(null, '', window.location.pathname);
+
+  // Tìm user theo username (phone hoặc id)
+  function tryAutoLogin() {
+    var allUsers = (window._vosUsers || []).concat(typeof USERS !== 'undefined' ? USERS : []);
+    var u = allUsers.find(function(x) {
+      return x.phone === ssoUser || x.id === ssoUser || (x.username && x.username === ssoUser);
+    });
+    if (!u) return false;
+
+    // Đặt trực tiếp vào state và login
+    if (typeof setState === 'function') {
+      setState({ user: u });
+      if (typeof loadUserData === 'function') loadUserData(u);
+      return true;
+    }
+    return false;
+  }
+
+  // Thử ngay, nếu chưa sẵn sàng thì đợi
+  var attempts = 0;
+  var timer = setInterval(function() {
+    attempts++;
+    if (attempts > 50) { clearInterval(timer); return; }
+    if (tryAutoLogin()) clearInterval(timer);
+  }, 100);
+})();
+</script>
+
 </body>
 </html>
 `},
