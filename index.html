@@ -71,6 +71,8 @@ const GROUPS=[
   {id:'g9',name:'KPI & Dashboard',icon:'📊',color:'#0277bd',docs:['d20','d21','d22']},
   {id:'g10',name:'Chính Sách Tài Chính',icon:'💳',color:'#558b2f',docs:['d23','d24']},
   {id:'g11',name:'SOP Vận Hành Nâng Cao',icon:'⚙️',color:'#4527a0',docs:['d25','d26','d27','d28','d29','d30','d31','d32','d33','d34','d35','d36']},
+
+  {id:'g12',name:'Ký Số MySign',icon:'✍️',color:'#6a1b9a',docs:['d37','d38','d39','d40']},
 ];
 const DOC_META={
   d01:{title:'Quy Chế Lương – Thưởng & Phúc Lợi',icon:'💰',num:'01',group:'g1',minLevel:1,tags:['lương','thưởng','phụ cấp','tháng 13'],summary:'Mức lương, thưởng HQKD, phụ cấp, lịch thanh toán và chế độ phúc lợi.'},
@@ -112,8 +114,13 @@ const DOC_META={
   d34:{title:'SOP-PROMO-01: Quy Trình Triển Khai Khuyến Mãi',icon:'🎁',num:'41',group:'g11',minLevel:2,tags:['khuyến mãi'],summary:'Quy trình triển khai khuyến mãi.'},
   d35:{title:'SOP-QA-01: Checklist QA Cửa Hàng 50 Điểm',icon:'📋',num:'42',group:'g11',minLevel:2,tags:['QA'],summary:'Checklist QA cửa hàng 50 điểm.'},
   d36:{title:'SOP-RECON-01: Quy Trình Đối Soát Tài Chính 3 Chiều',icon:'⚖️',num:'43',group:'g11',minLevel:3,tags:['đối soát'],summary:'Quy trình đối soát tài chính 3 chiều.'},
+
+  d37:{title:'Hướng Dẫn Ký Số MySign',icon:'✍️',num:'44',group:'g12',minLevel:1,tags:['ký số','MySign','hướng dẫn','HĐLĐ'],summary:'Hướng dẫn ký hợp đồng lao động điện tử qua ứng dụng MySign.'},
+  d38:{title:'Quy Trình Ký Số Điện Tử',icon:'🔄',num:'45',group:'g12',minLevel:2,tags:['ký số','quy trình','workflow','HĐLĐ'],summary:'Quy trình triển khai ký số điện tử toàn chuỗi VicoMart.'},
+  d39:{title:'Checklist Triển Khai Ký Số',icon:'✅',num:'46',group:'g12',minLevel:3,tags:['ký số','checklist','triển khai','BGĐ'],summary:'Checklist dành cho BGĐ và quản lý khi triển khai ký số.'},
+  d40:{title:'Tracker Ký Số Nhân Viên',icon:'📊',num:'47',group:'g12',minLevel:2,tags:['ký số','tracker','theo dõi','nhân viên'],summary:'Bảng theo dõi tiến độ ký số hợp đồng lao động toàn chuỗi.'},
 };
-const ALL_DOC_KEYS=['d01','d02','d03','d04','d05','d06','d07','d08','d09','d10','d11a','d11b','d12','d13a','d13b','d14','d15','d16','d17','d18','d19','d20','d21','d22','d23','d24','d25','d26','d27','d28','d29','d30','d31','d32','d33','d34','d35','d36'];
+const ALL_DOC_KEYS=['d01','d02','d03','d04','d05','d06','d07','d08','d09','d10','d11a','d11b','d12','d13a','d13b','d14','d15','d16','d17','d18','d19','d20','d21','d22','d23','d24','d25','d26','d27','d28','d29','d30','d31','d32','d33','d34','d35','d36','d37','d38','d39','d40'];
 
 /* ══════════════════════════════════════
    ANALYTICS DATA
@@ -22791,6 +22798,1218 @@ id="p2" class="part-div blue">
   <div style="margin-top:24px;font-size:11.5px;opacity:.4;">Tài liệu nội bộ — VicoMart Retail © 2026. Mọi thắc mắc vui lòng liên hệ Phòng Nhân sự.</div>
 </div>
 </body></html>`},
+  d37: {html:`<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng Dẫn MySign | VicoMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a3d6b;--blue:#1565c0;--blue2:#1e88e5;--pale:#e8f1fb;
+  --green:#1a7a3c;--greenlt:#e8f7ef;--amber:#d35400;--amberlt:#fef0e6;
+  --red:#c0392b;--redlt:#fdecea;--gold:#c9a84c;--goldlt:#fdf3d8;
+  --txt:#1a1a1a;--mid:#3d3d3d;--soft:#6b7280;--bg:#f5f8fd;--white:#fff;
+  --radius:14px;--shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;font-size:15px;}
+
+.hero{
+  background:linear-gradient(140deg,#051e3e 0%,#0a3d6b 50%,#1565c0 100%);
+  color:white;padding:32px 20px 28px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:6px;line-height:1.2;}
+.hero p{font-size:13.5px;color:rgba(255,255,255,0.75);margin-bottom:16px;}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.hero-tag{background:rgba(255,255,255,0.12);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:500;}
+
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 40px;}
+
+.section-hdr{
+  background:var(--blue);color:white;border-radius:var(--radius) var(--radius) 0 0;
+  padding:14px 20px;margin-top:28px;
+}
+.section-hdr h2{font-size:17px;font-weight:700;}
+.section-hdr p{font-size:12.5px;opacity:.8;margin-top:3px;}
+.section-body{background:var(--white);border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:4px;}
+
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #eef2f8;}
+.step:last-child{border-bottom:none;padding-bottom:0;}
+.step-num{
+  width:40px;height:40px;border-radius:50%;background:var(--navy);color:white;
+  display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;
+  flex-shrink:0;
+}
+.step-body h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.step-body p{font-size:13.5px;color:var(--mid);line-height:1.65;}
+.step-body code{background:var(--pale);color:var(--navy);padding:2px 8px;border-radius:6px;font-size:13px;font-weight:600;}
+
+.alert{border-radius:var(--radius);padding:14px 16px;margin:16px 0;display:flex;gap:12px;align-items:flex-start;}
+.alert-warn{background:var(--amberlt);border-left:4px solid var(--amber);}
+.alert-ok{background:var(--greenlt);border-left:4px solid var(--green);}
+.alert-info{background:var(--pale);border-left:4px solid var(--blue);}
+.alert-icon{font-size:18px;flex-shrink:0;line-height:1.4;}
+.alert-text{font-size:13.5px;color:var(--mid);line-height:1.65;}
+.alert-text strong{color:var(--txt);}
+
+.faq-item{border-radius:10px;border:1px solid #dde8f6;margin-bottom:10px;overflow:hidden;}
+.faq-q{
+  background:var(--pale);padding:13px 16px;font-size:14px;font-weight:600;color:var(--navy);
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  user-select:none;
+}
+.faq-q::after{content:'▾';font-size:16px;transition:transform .2s;}
+.faq-q.open::after{transform:rotate(180deg);}
+.faq-a{padding:13px 16px;font-size:13.5px;color:var(--mid);line-height:1.7;display:none;}
+.faq-a.open{display:block;}
+
+.confirm-box{
+  background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:20px;margin-top:28px;border:2px solid var(--blue2);
+}
+.confirm-box h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;text-align:center;}
+.confirm-row{display:flex;gap:12px;margin-bottom:10px;}
+.confirm-field{flex:1;background:var(--bg);border-radius:8px;padding:10px 14px;}
+.confirm-label{font-size:11.5px;color:var(--soft);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.confirm-line{border-bottom:1px solid var(--blue2);height:22px;}
+
+.link-btn{
+  display:block;text-align:center;padding:14px 20px;border-radius:var(--radius);
+  font-weight:700;font-size:15px;text-decoration:none;margin:12px 0;
+  transition:opacity .2s;
+}
+.link-btn:hover{opacity:.85;}
+.btn-primary{background:var(--navy);color:white;}
+.btn-secondary{background:var(--pale);color:var(--navy);border:1px solid var(--blue2);}
+
+.steps-mini{counter-reset:sc;}
+.step-mini{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #eef2f8;font-size:13.5px;}
+.step-mini:last-child{border-bottom:none;}
+.step-mini-n{
+  width:24px;height:24px;border-radius:50%;background:var(--blue2);color:white;
+  font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-mini-t{color:var(--mid);}
+.step-mini-t strong{color:var(--navy);}
+
+footer{text-align:center;padding:20px 16px 40px;font-size:12px;color:var(--soft);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🏪 VICOMART RETAIL — NỘI BỘ</div>
+  <h1>Hướng Dẫn Chữ Ký Số<br>MySign Viettel</h1>
+  <p>Dành cho nhân viên VicoMart · Phú Bài · Vinh Thanh · Thuận An</p>
+  <div class="hero-tags">
+    <span class="hero-tag">✅ Miễn phí qua VNeID</span>
+    <span class="hero-tag">📱 Làm trên điện thoại</span>
+    <span class="hero-tag">⚖️ Giá trị pháp lý đầy đủ</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="alert alert-ok" style="margin-top:20px;">
+    <span class="alert-icon">✅</span>
+    <div class="alert-text"><strong>Tốt khi biết:</strong> Gói MySign miễn phí qua VNeID đủ để ký hợp đồng lao động và mọi tài liệu nội bộ VicoMart. Anh/chị chỉ cần đăng ký <strong>1 lần duy nhất</strong> — sau đó ký mọi lúc, mọi nơi bằng điện thoại.</div>
+  </div>
+
+  <!-- PHẦN 1: ĐĂNG KÝ -->
+  <div class="section-hdr">
+    <h2>Phần 1 — Đăng Ký Tài Khoản (1 lần duy nhất)</h2>
+    <p>Thực hiện theo đúng thứ tự 5 bước dưới đây</p>
+  </div>
+  <div class="section-body">
+    <div class="alert alert-warn" style="margin-top:0;">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-text"><strong>Điều kiện trước:</strong> Phải có app <strong>VNeID</strong> đã đăng nhập tài khoản định danh mức 2 (CCCD đã xác thực). Nếu chưa có — liên hệ QLC để được hỗ trợ.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Mở app VNeID</h3>
+        <p>Tìm app VNeID trên điện thoại (biểu tượng lá quốc kỳ). Đăng nhập bằng CCCD và mật khẩu.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Vào Chứng thư chữ ký số</h3>
+        <p>Chọn <strong>"Dịch vụ khác"</strong> (góc dưới phải) → Chọn <strong>"Chứng thư chữ ký số"</strong></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Đăng ký Viettel MySign</h3>
+        <p>Chọn <strong>"Đăng ký chứng thư chữ ký số"</strong> → Chọn nhà cung cấp <strong>"Viettel MySign"</strong> → Tích đồng ý điều khoản → Xác nhận thông tin</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Nhận tài khoản qua SMS</h3>
+        <p>Viettel gửi <strong>tên đăng nhập + mật khẩu tạm</strong> về SĐT đã đăng ký VNeID. Kiểm tra tin nhắn. Đổi mật khẩu ngay khi đăng nhập lần đầu.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Cài app MySign & Đăng ký thiết bị</h3>
+        <p>Tải app <strong>"MySign"</strong> từ CH Play (Android) hoặc App Store (iOS). Đăng nhập → Vào <strong>"Đăng ký thiết bị"</strong> — bước này <strong>BẮT BUỘC</strong> để có thể ký.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-ok" style="margin-bottom:0;">
+      <span class="alert-icon">🎉</span>
+      <div class="alert-text"><strong>Hoàn thành!</strong> Báo QLC để được ghi nhận vào danh sách NV đã có chữ ký số.</div>
+    </div>
+  </div>
+
+  <!-- PHẦN 2: KÝ TÀI LIỆU -->
+  <div class="section-hdr">
+    <h2>Phần 2 — Ký Khi Nhận Yêu Cầu Từ VicoMart</h2>
+    <p>Khi QLC gửi file PDF qua Zalo và yêu cầu ký số</p>
+  </div>
+  <div class="section-body">
+    <div class="steps-mini">
+      <div class="step-mini"><div class="step-mini-n">1</div><div class="step-mini-t"><strong>Tải file PDF</strong> về điện thoại/máy tính. Đọc kỹ nội dung trước khi ký.</div></div>
+      <div class="step-mini"><div class="step-mini-n">2</div><div class="step-mini-t">Mở trình duyệt, vào <code style="background:#e8f1fb;color:#0a3d6b;padding:2px 8px;border-radius:6px;font-weight:700;">remotesigning.viettel.vn</code> → Đăng nhập tài khoản MySign</div></div>
+      <div class="step-mini"><div class="step-mini-n">3</div><div class="step-mini-t"><strong>Upload file PDF</strong> lên hệ thống. Chờ xử lý.</div></div>
+      <div class="step-mini"><div class="step-mini-n">4</div><div class="step-mini-t"><strong>Chọn vị trí ký</strong> — kéo ô chữ ký vào ô "Nhân viên ký" ở cuối trang.</div></div>
+      <div class="step-mini"><div class="step-mini-n">5</div><div class="step-mini-t"><strong>Xác nhận trên app MySign</strong> — hệ thống gửi thông báo đến điện thoại. Mở app → Xác nhận bằng vân tay/Face ID/PIN.</div></div>
+      <div class="step-mini"><div class="step-mini-n">6</div><div class="step-mini-t"><strong>Tải file đã ký về</strong> → Gửi lại cho QLC qua Zalo.</div></div>
+    </div>
+
+    <div class="alert alert-warn" style="margin-bottom:0;margin-top:16px;">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-text"><strong>Lưu ý:</strong> Yêu cầu ký hết hạn sau <strong>3 phút</strong>. Không xác nhận kịp → QLC tạo lại. KHÔNG sửa nội dung file trước khi ký sẽ làm hỏng chữ ký.</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-hdr">
+    <h2>Câu Hỏi Thường Gặp</h2>
+  </div>
+  <div class="section-body">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Tôi không có VNeID mức 2?</div>
+      <div class="faq-a">Liên hệ QLC. VicoMart hỗ trợ anh/chị đến điểm đăng ký VNeID gần nhất (thường là Công an phường/xã). Cần mang CCCD gắn chip.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Điện thoại đời cũ có dùng được không?</div>
+      <div class="faq-a">Được, miễn là cài được VNeID và MySign (yêu cầu Android 6.0+ hoặc iOS 12+).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Quên mật khẩu MySign phải làm gì?</div>
+      <div class="faq-a">Vào app MySign → "Quên mật khẩu" → Nhập SĐT → Nhận OTP → Đặt mật khẩu mới. Nếu không được — gọi 1800 8000 nhánh 1 (miễn phí).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Chữ ký số có giá trị pháp lý không?</div>
+      <div class="faq-a">Có. MySign được Bộ TT&TT cấp phép, đạt chuẩn eIDAS châu Âu. Có giá trị pháp lý tương đương chữ ký tay theo Luật Giao dịch điện tử Việt Nam.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Mỗi lần ký có tốn tiền không?</div>
+      <div class="faq-a">Không. Gói miễn phí qua VNeID không giới hạn số lượt ký trong 12 tháng đầu. Sau đó VicoMart sẽ hỗ trợ gia hạn — NV không phải tự trả.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Ký số khác gì ký tay truyền thống?</div>
+      <div class="faq-a">Ký số dùng công nghệ mã hóa — không ai có thể giả mạo hay sửa nội dung sau khi ký. Ký tay truyền thống có thể bị làm giả. Ký số an toàn hơn và có dấu thời gian chính xác.</div>
+    </div>
+  </div>
+
+  <!-- Xác nhận -->
+  <div class="confirm-box">
+    <h3>✍️ Xác Nhận Đã Đọc & Hiểu Hướng Dẫn</h3>
+    <div class="confirm-row">
+      <div class="confirm-field">
+        <div class="confirm-label">Họ và tên</div>
+        <div class="confirm-line"></div>
+      </div>
+      <div class="confirm-field">
+        <div class="confirm-label">Chi nhánh</div>
+        <div class="confirm-line"></div>
+      </div>
+    </div>
+    <div class="confirm-row">
+      <div class="confirm-field">
+        <div class="confirm-label">Ngày đăng ký MySign thành công</div>
+        <div class="confirm-line"></div>
+      </div>
+      <div class="confirm-field">
+        <div class="confirm-label">Chữ ký tay xác nhận</div>
+        <div class="confirm-line"></div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--soft);text-align:center;margin-top:10px;">Nộp phiếu này cho QLC sau khi đăng ký xong</p>
+  </div>
+
+  <a href="https://remotesigning.viettel.vn" class="link-btn btn-primary" target="_blank">🔗 Truy cập remotesigning.viettel.vn để ký</a>
+  <a href="tel:18008000" class="link-btn btn-secondary">📞 Hotline Viettel hỗ trợ: 1800 8000 (nhánh 1)</a>
+
+</div>
+
+<footer>
+  VicoMart Retail · Tài liệu nội bộ HD-MYSIGN-NV-01 · Hiệu lực 01/01/2026<br>
+  Mọi thắc mắc liên hệ QLC cửa hàng
+</footer>
+
+<script>
+function toggleFaq(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+<\/script>
+</body>
+</html>`},
+  d38: {html:`<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quy Trình Ký Số | VicoMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a3d6b;--blue:#1565c0;--blue2:#1e88e5;--pale:#e8f1fb;
+  --green:#1a7a3c;--greenlt:#e8f7ef;--amber:#d35400;--amberlt:#fef0e6;
+  --mid:#3d3d3d;--soft:#6b7280;--white:#fff;--bg:#f5f8fd;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--mid);line-height:1.7;}
+
+.header{
+  background:linear-gradient(135deg,#051e3e,#0a3d6b,#1565c0);
+  padding:28px 32px;color:white;
+}
+.header h1{font-size:22px;font-weight:800;}
+.header p{font-size:13px;opacity:.75;margin-top:4px;}
+
+.container{max-width:900px;margin:0 auto;padding:28px 24px;}
+
+/* Doc selector */
+.doc-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+.doc-tab{
+  padding:8px 18px;border-radius:20px;border:1.5px solid #c5d8f0;
+  background:var(--white);cursor:pointer;font-size:13px;font-weight:600;
+  color:var(--soft);transition:all .2s;
+}
+.doc-tab:hover{border-color:var(--blue2);color:var(--blue);}
+.doc-tab.active{background:var(--navy);color:white;border-color:var(--navy);}
+
+/* Status tracker */
+.tracker{
+  background:var(--white);border-radius:14px;padding:24px 28px;
+  box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:24px;
+}
+.tracker-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:18px;}
+.track-steps{display:flex;align-items:center;gap:0;}
+.track-step{flex:1;text-align:center;position:relative;}
+.track-step:not(:last-child)::after{
+  content:'';position:absolute;top:19px;left:50%;width:100%;height:2px;
+  background:#e0e8f4;z-index:0;
+}
+.track-step.done:not(:last-child)::after{background:var(--green);}
+.track-step.active:not(:last-child)::after{background:linear-gradient(90deg,var(--green) 50%,#e0e8f4 50%);}
+.track-dot{
+  width:38px;height:38px;border-radius:50%;border:2.5px solid #d0dcf0;
+  background:var(--white);margin:0 auto 8px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;position:relative;z-index:1;
+  transition:all .3s;
+}
+.track-step.done .track-dot{background:var(--green);border-color:var(--green);}
+.track-step.active .track-dot{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 4px rgba(30,136,229,0.15);}
+.track-label{font-size:11.5px;color:var(--soft);font-weight:600;}
+.track-step.done .track-label{color:var(--green);}
+.track-step.active .track-label{color:var(--blue);}
+
+/* Flow cards */
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+@media(max-width:600px){.flow{grid-template-columns:1fr;}}
+
+.flow-card{
+  background:var(--white);border-radius:12px;padding:18px 20px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1.5px solid #e0eaf6;
+  position:relative;
+}
+.flow-card.active-card{border-color:var(--blue2);box-shadow:0 2px 16px rgba(30,136,229,0.15);}
+.flow-card.done-card{border-color:#1a7a3c;background:var(--greenlt);}
+.flow-card.waiting{opacity:.55;}
+.card-badge{
+  position:absolute;top:-10px;left:16px;
+  background:var(--navy);color:white;
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;
+}
+.flow-card.done-card .card-badge{background:var(--green);}
+.flow-card.active-card .card-badge{background:var(--blue);}
+.card-who{font-size:11px;color:var(--soft);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;margin-top:4px;}
+.card-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.card-desc{font-size:13px;color:var(--mid);}
+.card-action{
+  display:inline-block;margin-top:12px;padding:7px 16px;border-radius:8px;
+  font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:none;
+  transition:opacity .2s;
+}
+.card-action:hover{opacity:.85;}
+.btn-navy{background:var(--navy);color:white;}
+.btn-green{background:var(--green);color:white;}
+.btn-disabled{background:#d0d9e8;color:var(--soft);cursor:not-allowed;}
+
+/* Timeline của người ký */
+.signer-list{background:var(--white);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+.signer-list h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:16px;}
+.signer-row{
+  display:flex;align-items:center;gap:14px;padding:12px 0;
+  border-bottom:1px solid #eef2f8;
+}
+.signer-row:last-child{border-bottom:none;padding-bottom:0;}
+.signer-avatar{
+  width:38px;height:38px;border-radius:50%;background:var(--pale);
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;
+  color:var(--navy);flex-shrink:0;
+}
+.signer-info{flex:1;}
+.signer-name{font-size:14px;font-weight:600;color:var(--navy);}
+.signer-role{font-size:12px;color:var(--soft);}
+.signer-status{font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;}
+.status-done{background:var(--greenlt);color:var(--green);}
+.status-wait{background:var(--pale);color:var(--blue);}
+.status-pending{background:#fff3cd;color:var(--amber);}
+
+.alert{border-radius:10px;padding:13px 16px;margin:16px 0;display:flex;gap:10px;align-items:flex-start;}
+.alert-warn{background:var(--amberlt);border-left:4px solid var(--amber);}
+.alert-ok{background:var(--greenlt);border-left:4px solid var(--green);}
+.alert-icon{font-size:17px;flex-shrink:0;line-height:1.4;}
+.alert-text{font-size:13px;color:var(--mid);}
+.alert-text strong{color:#1a1a1a;}
+
+.sign-url-box{
+  background:var(--navy);border-radius:12px;padding:18px 22px;
+  color:white;text-align:center;margin:16px 0;
+}
+.sign-url-box p{font-size:12px;opacity:.7;margin-bottom:6px;}
+.sign-url-box a{font-size:17px;font-weight:800;color:white;text-decoration:none;letter-spacing:.5px;}
+.sign-url-box a:hover{text-decoration:underline;}
+.copy-btn{
+  margin-top:10px;display:inline-block;padding:6px 18px;
+  border:1.5px solid rgba(255,255,255,0.4);border-radius:8px;
+  font-size:12.5px;font-weight:600;cursor:pointer;background:transparent;color:white;
+  transition:background .2s;
+}
+.copy-btn:hover{background:rgba(255,255,255,0.1);}
+
+.instruction-steps{counter-reset:is;}
+.inst-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #eef2f8;}
+.inst-step:last-child{border-bottom:none;}
+.inst-n{
+  width:28px;height:28px;border-radius:50%;background:var(--blue2);color:white;
+  font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.inst-t{font-size:13.5px;color:var(--mid);}
+.inst-t strong{color:var(--navy);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📝 Quy Trình Ký Số Tài Liệu — VicoMart</h1>
+  <p>Sử dụng chữ ký số MySign Viettel · Có giá trị pháp lý đầy đủ</p>
+</div>
+
+<div class="container">
+
+  <!-- Chọn loại tài liệu -->
+  <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px;">Chọn loại tài liệu cần ký:</div>
+  <div class="doc-tabs">
+    <div class="doc-tab active" onclick="selectDoc(this,'hdld')">📄 Hợp đồng lao động</div>
+    <div class="doc-tab" onclick="selectDoc(this,'bm04')">📦 Biên bản kiểm kê (BM-04)</div>
+    <div class="doc-tab" onclick="selectDoc(this,'bm08')">🔍 Biên bản audit (BM-08)</div>
+    <div class="doc-tab" onclick="selectDoc(this,'sop')">📋 Xác nhận đọc quy chế</div>
+  </div>
+
+  <!-- Status tracker -->
+  <div class="tracker">
+    <div class="tracker-title" id="doc-title">Hợp đồng lao động — Luồng ký 2 người: BGĐ ký trước → NV ký sau</div>
+    <div class="track-steps">
+      <div class="track-step done">
+        <div class="track-dot">✓</div>
+        <div class="track-label">Tạo PDF</div>
+      </div>
+      <div class="track-step active">
+        <div class="track-dot" style="color:white;font-weight:800;">1</div>
+        <div class="track-label">BGĐ ký</div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot">2</div>
+        <div class="track-label">Gửi NV</div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot">3</div>
+        <div class="track-label">NV ký</div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot">4</div>
+        <div class="track-label">Lưu hồ sơ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow cards -->
+  <div class="flow">
+
+    <div class="flow-card done-card">
+      <div class="card-badge">✓ XONG</div>
+      <div class="card-who" style="margin-top:14px;">Bước 0</div>
+      <div class="card-title">Tạo & chuẩn bị PDF</div>
+      <div class="card-desc">Xuất hợp đồng lao động từ app Lương → Lưu PDF. Đảm bảo đúng họ tên, ngày tháng, chi nhánh.</div>
+    </div>
+
+    <div class="flow-card active-card">
+      <div class="card-badge">⚡ ĐANG LÀM</div>
+      <div class="card-who" style="margin-top:14px;">Bước 1 — BGĐ / GSV ký trước</div>
+      <div class="card-title">Ký số tại remotesigning.viettel.vn</div>
+      <div class="card-desc">Upload PDF → Đặt chữ ký vào ô "Tổng Giám Đốc" → Xác nhận trên app MySign → Tải file đã ký về.</div>
+      <a href="https://remotesigning.viettel.vn" target="_blank" class="card-action btn-navy">🔗 Mở remotesigning.viettel.vn</a>
+    </div>
+
+    <div class="flow-card waiting">
+      <div class="card-badge">⏳ CHỜ</div>
+      <div class="card-who" style="margin-top:14px;">Bước 2 — Gửi cho NV</div>
+      <div class="card-title">Gửi file đã ký cho NV</div>
+      <div class="card-desc">Gửi file PDF (đã có chữ ký BGĐ) qua Zalo. Kèm link hướng dẫn hoặc ảnh QR để NV biết cách ký.</div>
+    </div>
+
+    <div class="flow-card waiting">
+      <div class="card-badge">⏳ CHỜ</div>
+      <div class="card-who" style="margin-top:14px;">Bước 3 — NV ký lại</div>
+      <div class="card-title">NV upload file → ký vào ô "Nhân viên"</div>
+      <div class="card-desc">NV vào remotesigning.viettel.vn → upload đúng file nhận được → ký vào ô "Nhân viên" → gửi lại file.</div>
+    </div>
+
+  </div>
+
+  <!-- Danh sách người ký -->
+  <div class="signer-list">
+    <h3>📋 Danh Sách Người Ký & Trạng Thái</h3>
+    <div class="signer-row">
+      <div class="signer-avatar">BGĐ</div>
+      <div class="signer-info">
+        <div class="signer-name">Tổng Giám Đốc</div>
+        <div class="signer-role">Ký đại diện VicoMart · Ký trước</div>
+      </div>
+      <div class="signer-status status-wait">⏳ Đang ký</div>
+    </div>
+    <div class="signer-row">
+      <div class="signer-avatar">NV</div>
+      <div class="signer-info">
+        <div class="signer-name">Nhân viên ký kết</div>
+        <div class="signer-role">Ký cá nhân · Ký sau khi BGĐ đã ký</div>
+      </div>
+      <div class="signer-status status-pending">⌛ Chưa đến lượt</div>
+    </div>
+  </div>
+
+  <!-- Hướng dẫn chi tiết bước 1 -->
+  <div style="background:var(--white);border-radius:14px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-top:16px;">
+    <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:14px;">⚡ Hướng dẫn chi tiết Bước 1 — BGĐ ký tại remotesigning.viettel.vn</div>
+
+    <div class="sign-url-box">
+      <p>Truy cập trang ký số Viettel:</p>
+      <a href="https://remotesigning.viettel.vn" target="_blank">remotesigning.viettel.vn</a>
+      <br><button class="copy-btn" onclick="copyUrl()">📋 Copy link</button>
+    </div>
+
+    <div class="instruction-steps">
+      <div class="inst-step"><div class="inst-n">1</div><div class="inst-t"><strong>Đăng nhập</strong> bằng tài khoản MySign (gói miễn phí qua VNeID)</div></div>
+      <div class="inst-step"><div class="inst-n">2</div><div class="inst-t"><strong>Chọn "Ký tài liệu"</strong> → Upload file PDF hợp đồng</div></div>
+      <div class="inst-step"><div class="inst-n">3</div><div class="inst-t"><strong>Đặt chữ ký</strong> vào đúng vị trí ô "Tổng Giám Đốc" ở trang cuối hợp đồng</div></div>
+      <div class="inst-step"><div class="inst-n">4</div><div class="inst-t"><strong>Nhấn "Ký"</strong> → Mở app MySign trên điện thoại → <strong>Xác nhận bằng vân tay/PIN trong 3 phút</strong></div></div>
+      <div class="inst-step"><div class="inst-n">5</div><div class="inst-t"><strong>Tải file đã ký về</strong> → Gửi cho NV qua Zalo kèm link hướng dẫn bên dưới</div></div>
+    </div>
+
+    <div class="alert alert-warn" style="margin-top:16px;">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-text"><strong>Quan trọng khi gửi cho NV:</strong> Gửi đúng file PDF <strong>đã có chữ ký BGĐ</strong> — không gửi file gốc. NV phải upload chính xác file đó, không sửa gì, rồi ký vào ô của mình.</div>
+    </div>
+  </div>
+
+  <!-- Link gửi NV -->
+  <div style="background:var(--white);border-radius:14px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-top:16px;">
+    <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">📤 Tin nhắn mẫu gửi NV qua Zalo</div>
+    <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border:1.5px dashed #c5d8f0;">
+      <p style="font-size:13.5px;color:var(--mid);line-height:1.8;" id="zalo-msg">
+        📄 [Tên NV] ơi, đây là Hợp đồng lao động của em — BGĐ đã ký rồi, em ký tên vào nữa là hoàn chỉnh nhé.<br><br>
+        <strong>Cách ký (3 phút):</strong><br>
+        1. Tải file PDF đính kèm về điện thoại<br>
+        2. Vào: remotesigning.viettel.vn<br>
+        3. Đăng nhập tài khoản MySign<br>
+        4. Upload file → Đặt chữ ký vào ô "Nhân viên" → Xác nhận trên app<br>
+        5. Tải file đã ký → Gửi lại cho mình<br><br>
+        Chưa có MySign: xem hướng dẫn tại [link trang hướng dẫn] hoặc hỏi QLC.
+      </p>
+    </div>
+    <button onclick="copyMsg()" style="margin-top:10px;padding:8px 18px;border-radius:8px;border:1.5px solid var(--blue2);background:var(--pale);color:var(--navy);font-weight:600;font-size:13px;cursor:pointer;">📋 Copy tin nhắn</button>
+  </div>
+
+</div>
+
+<script>
+function selectDoc(el, type){
+  document.querySelectorAll('.doc-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const titles = {
+    hdld:'Hợp đồng lao động — Luồng ký 2 người: BGĐ ký trước → NV ký sau',
+    bm04:'Biên bản kiểm kê BM-04 — Luồng ký 2 người: QLC + Kế toán',
+    bm08:'Biên bản audit BM-08 — Luồng ký 2 người: GSV + QLC',
+    sop:'Xác nhận đọc quy chế — NV ký 1 người xác nhận đã đọc',
+  };
+  document.getElementById('doc-title').textContent = titles[type];
+}
+function copyUrl(){
+  navigator.clipboard.writeText('https://remotesigning.viettel.vn').then(()=>{
+    event.target.textContent = '✓ Đã copy!';
+    setTimeout(()=>event.target.textContent='📋 Copy link',2000);
+  });
+}
+function copyMsg(){
+  const txt = document.getElementById('zalo-msg').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    event.target.textContent = '✓ Đã copy!';
+    setTimeout(()=>event.target.textContent='📋 Copy tin nhắn',2000);
+  });
+}
+<\/script>
+</body>
+</html>`},
+  d39: {html:`<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist Triển Khai | VicoMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a3d6b;--blue:#1565c0;--b2:#1e88e5;--pale:#e8f1fb;--green:#1a7a3c;--glt:#e8f7ef;--amber:#d35400;--alt:#fef0e6;--red:#c0392b;--mid:#3d3d3d;--soft:#6b7280;--bg:#f5f8fd;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--mid);}
+.hdr{background:linear-gradient(135deg,#051e3e,#0a3d6b,#1565c0);padding:28px 32px;color:white;}
+.hdr h1{font-size:22px;font-weight:800;}
+.hdr p{font-size:13px;opacity:.72;margin-top:4px;}
+.wrap{max-width:800px;margin:0 auto;padding:28px 20px 60px;}
+
+.phase{background:var(--white);border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.07);margin-bottom:20px;overflow:hidden;}
+.phase-hdr{background:var(--navy);padding:16px 22px;display:flex;align-items:center;gap:14px;}
+.phase-hdr.blue{background:var(--blue);}
+.phase-hdr.b2{background:var(--b2);}
+.phase-hdr.green{background:var(--green);}
+.phase-num{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:white;flex-shrink:0;}
+.phase-title{color:white;}
+.phase-title h2{font-size:16px;font-weight:700;}
+.phase-title p{font-size:12px;opacity:.75;margin-top:2px;}
+.phase-badge{margin-left:auto;background:rgba(255,255,255,.18);color:white;padding:4px 12px;border-radius:10px;font-size:12px;font-weight:700;}
+.phase-body{padding:18px 22px;}
+
+.task{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #eef2f8;align-items:flex-start;}
+.task:last-child{border-bottom:none;padding-bottom:0;}
+.task-check{
+  width:22px;height:22px;border-radius:6px;border:2px solid #c5d8f0;
+  flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;margin-top:2px;
+}
+.task-check.done{background:var(--green);border-color:var(--green);color:white;font-size:13px;}
+.task-body{flex:1;}
+.task-title{font-size:14px;font-weight:600;color:var(--navy);}
+.task-title.done-txt{text-decoration:line-through;color:var(--soft);}
+.task-desc{font-size:13px;color:var(--mid);margin-top:4px;line-height:1.6;}
+.task-tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-top:6px;margin-right:4px;}
+.tag-file{background:#fff3cd;color:#856404;}
+.tag-action{background:var(--pale);color:var(--navy);}
+.tag-zalo{background:#e7f3ff;color:#0a3d6b;}
+.tag-mysign{background:#d1fae5;color:#065f46;}
+
+.prog-wrap{background:var(--white);border-radius:12px;padding:18px 22px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px;}
+.prog-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;}
+.prog-bg{background:#e0eaf6;border-radius:8px;height:10px;overflow:hidden;}
+.prog-fill{background:linear-gradient(90deg,var(--green),#2ecc71);border-radius:8px;height:10px;transition:width .5s;}
+.prog-info{display:flex;justify-content:space-between;font-size:12.5px;color:var(--soft);margin-top:6px;}
+
+.link-card{background:var(--pale);border-radius:10px;padding:14px 16px;margin:10px 0;display:flex;align-items:center;gap:12px;border:1.5px solid #c5d8f0;}
+.link-card-icon{font-size:22px;flex-shrink:0;}
+.link-card-body{flex:1;}
+.link-card-title{font-size:14px;font-weight:700;color:var(--navy);}
+.link-card-url{font-size:12.5px;color:var(--blue);}
+.link-card-btn{padding:7px 16px;border-radius:8px;background:var(--navy);color:white;font-size:12.5px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-block;}
+
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:white;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;display:none;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>✅ Checklist Triển Khai Ký Số — VicoMart</h1>
+  <p>Dành cho BGĐ / GSV · Theo đúng thứ tự từ trên xuống · Tích vào khi hoàn thành</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Progress -->
+  <div class="prog-wrap">
+    <div class="prog-title">🎯 Tiến độ triển khai tổng thể</div>
+    <div class="prog-bg"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-info"><span id="prog-txt">0 / 0 bước hoàn thành</span><span id="prog-pct">0%</span></div>
+  </div>
+
+  <!-- Links nhanh -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+    <div class="link-card">
+      <div class="link-card-icon">✍️</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Ký tài liệu</div>
+        <div class="link-card-url">remotesigning.viettel.vn</div>
+      </div>
+      <a href="https://remotesigning.viettel.vn" target="_blank" class="link-card-btn">Mở</a>
+    </div>
+    <div class="link-card">
+      <div class="link-card-icon">📊</div>
+      <div class="link-card-body">
+        <div class="link-card-title">Tracker NV</div>
+        <div class="link-card-url">Xem trạng thái ký</div>
+      </div>
+      <a href="vicomart-mysign-tracker.html" class="link-card-btn">Mở</a>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="phase-hdr">
+      <div class="phase-num">1</div>
+      <div class="phase-title"><h2>Chuẩn bị tài liệu (BGĐ làm — 30 phút)</h2><p>Trước khi phát cho NV</p></div>
+      <div class="phase-badge" id="ph1-badge">0/4</div>
+    </div>
+    <div class="phase-body" id="ph1">
+      <div class="task" data-phase="1">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Điền thông tin vào HĐLĐ mẫu (DOCX)</div>
+          <div class="task-desc">Mở file <code>hop_dong_lao_dong_mau.docx</code> → Điền tên công ty, MST, người đại diện. Lưu thành file chung rồi sẽ nhân bản cho từng NV với họ tên riêng.</div>
+          <span class="task-tag tag-file">📄 hop_dong_lao_dong_mau.docx</span>
+        </div>
+      </div>
+      <div class="task" data-phase="1">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Xuất HĐLĐ thành PDF (1 file/NV)</div>
+          <div class="task-desc">Với mỗi NV: điền họ tên, ngày sinh, CCCD, vị trí, lương → Lưu riêng thành PDF tên kiểu <code>HDLD_Nguyen_Van_An_2026.pdf</code>. Làm cho cả 8 NV.</div>
+          <span class="task-tag tag-file">📁 8 file PDF riêng cho 8 NV</span>
+        </div>
+      </div>
+      <div class="task" data-phase="1">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Xuất Phiếu xác nhận quy chế thành PDF</div>
+          <div class="task-desc">Mở <code>phieu_xac_nhan_quy_che.docx</code> → Điền tên từng NV → Xuất PDF. 8 file PDF riêng, đặt tên <code>XN_QC_Nguyen_Van_An_2026.pdf</code>.</div>
+          <span class="task-tag tag-file">📁 8 file PDF phiếu xác nhận</span>
+        </div>
+      </div>
+      <div class="task" data-phase="1">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">BGĐ ký số trước vào HĐLĐ của từng NV</div>
+          <div class="task-desc">Vào <strong>remotesigning.viettel.vn</strong> → Upload từng HĐLĐ PDF → Đặt chữ ký vào ô "Tổng Giám Đốc" → Xác nhận qua app MySign → Tải file đã ký về → Lưu với tên <code>HDLD_..._BGD_signed.pdf</code>.</div>
+          <span class="task-tag tag-mysign">✍️ remotesigning.viettel.vn</span>
+          <span class="task-tag tag-action">8 lần ký — ~5 phút/file</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="phase-hdr blue">
+      <div class="phase-num">2</div>
+      <div class="phase-title"><h2>Gửi cho NV & Hướng dẫn đăng ký MySign</h2><p>Thực hiện cho từng NV — mỗi người ~5 phút hướng dẫn</p></div>
+      <div class="phase-badge" id="ph2-badge">0/3</div>
+    </div>
+    <div class="phase-body" id="ph2">
+      <div class="task" data-phase="2">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Kiểm tra NV nào đã có MySign</div>
+          <div class="task-desc">Hỏi từng NV: "Em đã đăng ký MySign qua VNeID chưa?" Ghi nhận vào Tracker. NV nào chưa có → Hướng dẫn đăng ký theo tài liệu <code>vicomart-mysign-huong-dan.html</code> hoặc DOCX hướng dẫn.</div>
+          <span class="task-tag tag-action">📋 Xem Tracker để theo dõi</span>
+        </div>
+      </div>
+      <div class="task" data-phase="2">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Gửi file PDF đã có chữ ký BGĐ cho từng NV qua Zalo</div>
+          <div class="task-desc">Gửi 2 file: (1) HĐLĐ đã có chữ ký BGĐ + (2) Phiếu xác nhận quy chế (chưa ký). Kèm tin nhắn hướng dẫn (dùng nút "📤 Nhắc" trong Tracker để copy tin nhắn mẫu).</div>
+          <span class="task-tag tag-zalo">💬 Zalo — 2 file/NV</span>
+          <span class="task-tag tag-action">Cập nhật Tracker → "Đã gửi"</span>
+        </div>
+      </div>
+      <div class="task" data-phase="2">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Đặt deadline ký và theo dõi qua Tracker</div>
+          <div class="task-desc">Đặt deadline rõ ràng: <strong>___/___/2026</strong>. Kiểm tra Tracker hàng ngày. NV nào chưa ký sau 2 ngày → Nhắc lại bằng nút "Nhắc" trong Tracker.</div>
+          <span class="task-tag tag-action">📊 vicomart-mysign-tracker.html</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="phase-hdr b2">
+      <div class="phase-num">3</div>
+      <div class="phase-title"><h2>Thu nhận & Kiểm tra file đã ký</h2><p>Sau khi NV ký và gửi lại</p></div>
+      <div class="phase-badge" id="ph3-badge">0/3</div>
+    </div>
+    <div class="phase-body" id="ph3">
+      <div class="task" data-phase="3">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Nhận file đã ký từ NV, kiểm tra tính hợp lệ</div>
+          <div class="task-desc">Mở file PDF bằng Adobe Acrobat Reader → Xem phần "Signatures" → Cả 2 chữ ký phải hiển thị màu xanh ✓ và trạng thái "Valid". Nếu đỏ hoặc "Invalid" → NV ký sai quy trình, cần làm lại.</div>
+          <span class="task-tag tag-file">🔍 Kiểm tra trong Adobe Acrobat</span>
+        </div>
+      </div>
+      <div class="task" data-phase="3">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Cập nhật Tracker → "Đã ký" cho từng NV</div>
+          <div class="task-desc">Vào Tracker → Chọn dropdown của từng NV → Chuyển từ "Đã gửi" sang "✅ Đã ký" → Hệ thống tự ghi ngày và cập nhật tiến độ.</div>
+          <span class="task-tag tag-action">📊 Cập nhật Tracker</span>
+        </div>
+      </div>
+      <div class="task" data-phase="3">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Lưu trữ file PDF đã ký đủ 2 chữ ký</div>
+          <div class="task-desc">Tạo thư mục <code>HoSo_NhanSu_2026/[Tên NV]/</code> → Lưu: HĐLĐ đã ký đủ + Phiếu xác nhận đã ký đủ. Backup lên Google Drive hoặc hệ thống lưu trữ VicoMart. Không xóa file gốc.</div>
+          <span class="task-tag tag-file">📁 Lưu trữ Google Drive / NAS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase">
+    <div class="phase-hdr green">
+      <div class="phase-num">4</div>
+      <div class="phase-title"><h2>Hoàn tất & Báo cáo</h2><p>Sau khi 100% NV ký đủ</p></div>
+      <div class="phase-badge" id="ph4-badge">0/2</div>
+    </div>
+    <div class="phase-body" id="ph4">
+      <div class="task" data-phase="4">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Xác nhận 100% nhân sự đã ký đủ (Tracker màu xanh hết)</div>
+          <div class="task-desc">Mở Tracker → Kiểm tra cột trạng thái → Tất cả phải hiển thị "✅ Hoàn thành". Screenshot Tracker → Lưu vào hồ sơ.</div>
+          <span class="task-tag tag-action">📊 Screenshot Tracker</span>
+        </div>
+      </div>
+      <div class="task" data-phase="4">
+        <div class="task-check" onclick="toggle(this)"></div>
+        <div class="task-body">
+          <div class="task-title">Ký số những tài liệu tiếp theo (BM-04, BM-08...)</div>
+          <div class="task-desc">Sau khi hoàn thành HĐLĐ và Quy chế, tiếp tục áp dụng luồng ký số cho: Biên bản kiểm kê tháng (BM-04), Biên bản audit (BM-08), và các biểu mẫu quan trọng khác theo lịch vận hành.</div>
+          <span class="task-tag tag-action">🚀 Mở rộng áp dụng</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SAVE_KEY = 'vc_checklist_2026';
+function loadChecks(){
+  const s = localStorage.getItem(SAVE_KEY);
+  return s ? JSON.parse(s) : {};
+}
+function saveChecks(checks){ localStorage.setItem(SAVE_KEY, JSON.stringify(checks)); }
+
+let checks = loadChecks();
+
+function toggle(el){
+  const task = el.closest('.task');
+  const idx = Array.from(document.querySelectorAll('.task')).indexOf(task);
+  checks[idx] = !checks[idx];
+  saveChecks(checks);
+  applyChecks();
+}
+
+function applyChecks(){
+  const tasks = document.querySelectorAll('.task');
+  tasks.forEach((t,i)=>{
+    const box = t.querySelector('.task-check');
+    const title = t.querySelector('.task-title');
+    if(checks[i]){
+      box.classList.add('done'); box.textContent='✓';
+      title.classList.add('done-txt');
+    } else {
+      box.classList.remove('done'); box.textContent='';
+      title.classList.remove('done-txt');
+    }
+  });
+  // Phase badges
+  [1,2,3,4].forEach(ph=>{
+    const pTasks = document.querySelectorAll(\`[data-phase="\${ph}"]\`);
+    const done = [...pTasks].filter(t=>checks[Array.from(document.querySelectorAll('.task')).indexOf(t)]).length;
+    const el = document.getElementById(\`ph\${ph}-badge\`);
+    if(el) el.textContent = \`\${done}/\${pTasks.length}\`;
+  });
+  // Overall progress
+  const total = tasks.length;
+  const done = Object.values(checks).filter(Boolean).length;
+  const pct = total>0?Math.round(done/total*100):0;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-txt').textContent = \`\${done} / \${total} bước hoàn thành\`;
+  document.getElementById('prog-pct').textContent = pct+'%';
+}
+
+applyChecks();
+<\/script>
+</body>
+</html>`},
+  d40: {html:`<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracker Ký Số | VicoMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a3d6b;--blue:#1565c0;--b2:#1e88e5;--pale:#e8f1fb;--green:#1a7a3c;--glt:#e8f7ef;--amber:#d35400;--alt:#fef0e6;--red:#c0392b;--rlt:#fdecea;--mid:#3d3d3d;--soft:#6b7280;--bg:#f5f8fd;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--mid);}
+.hdr{background:linear-gradient(135deg,#051e3e,#0a3d6b,#1565c0);padding:24px 32px;color:white;}
+.hdr h1{font-size:20px;font-weight:800;}
+.hdr p{font-size:13px;opacity:.72;margin-top:4px;}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 20px;}
+
+/* Stats row */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat{background:var(--white);border-radius:12px;padding:16px 18px;box-shadow:0 2px 12px rgba(0,0,0,.06);border-top:3px solid var(--navy);}
+.stat.green{border-top-color:var(--green);}
+.stat.amber{border-top-color:var(--amber);}
+.stat.red{border-top-color:var(--red);}
+.stat-val{font-size:28px;font-weight:800;color:var(--navy);line-height:1;}
+.stat.green .stat-val{color:var(--green);}
+.stat.amber .stat-val{color:var(--amber);}
+.stat.red .stat-val{color:var(--red);}
+.stat-lbl{font-size:12px;color:var(--soft);margin-top:6px;font-weight:600;}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.tab{padding:7px 18px;border-radius:20px;border:1.5px solid #c5d8f0;background:var(--white);cursor:pointer;font-size:13px;font-weight:600;color:var(--soft);transition:all .2s;}
+.tab:hover{border-color:var(--b2);color:var(--blue);}
+.tab.on{background:var(--navy);color:white;border-color:var(--navy);}
+
+/* Table */
+.tbl-wrap{background:var(--white);border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--navy);color:white;font-size:12.5px;font-weight:700;padding:12px 14px;text-align:left;}
+th:first-child{width:40px;text-align:center;}
+td{padding:11px 14px;font-size:13.5px;border-bottom:1px solid #eef2f8;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#f8fbff;}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:10px;font-size:12px;font-weight:700;}
+.b-done{background:var(--glt);color:var(--green);}
+.b-wait{background:var(--pale);color:var(--blue);}
+.b-pend{background:var(--alt);color:var(--amber);}
+.b-none{background:#f0f0f0;color:#888;}
+
+.role-badge{display:inline-block;padding:2px 9px;border-radius:6px;font-size:11.5px;font-weight:700;}
+.r-bgd{background:#fff3cd;color:#856404;}
+.r-gsv{background:#cfe2ff;color:#084298;}
+.r-qlc{background:#d1e7dd;color:#0f5132;}
+.r-tl{background:#e8f1fb;color:#0a3d6b;}
+.r-nv{background:#f0f0f0;color:#555;}
+
+.chi-nhanh{font-size:11.5px;color:var(--soft);}
+.progress-wrap{margin-top:20px;padding:0 4px;}
+.prog-bar-bg{background:#e0eaf6;border-radius:8px;height:8px;overflow:hidden;}
+.prog-bar{background:linear-gradient(90deg,var(--green),#2ecc71);border-radius:8px;height:8px;transition:width .6s ease;}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);margin-top:5px;}
+
+.action-btn{padding:6px 13px;border-radius:8px;border:none;cursor:pointer;font-size:12.5px;font-weight:600;transition:opacity .2s;}
+.action-btn:hover{opacity:.8;}
+.btn-remind{background:var(--pale);color:var(--navy);}
+.btn-done{background:var(--glt);color:var(--green);}
+.btn-view{background:#f0f0f0;color:var(--mid);}
+.filter-bar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.filter-bar input{flex:1;min-width:180px;padding:8px 14px;border-radius:10px;border:1.5px solid #d0dcf0;font-size:13.5px;font-family:inherit;background:var(--white);}
+.filter-bar input:focus{outline:none;border-color:var(--b2);}
+.filter-bar select{padding:8px 14px;border-radius:10px;border:1.5px solid #d0dcf0;font-size:13.5px;font-family:inherit;background:var(--white);cursor:pointer;}
+
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:white;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;display:none;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;align-items:center;justify-content:center;}
+.modal{background:var(--white);border-radius:16px;padding:28px;max-width:480px;width:90%;box-shadow:0 16px 48px rgba(0,0,0,.2);}
+.modal h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:16px;}
+.modal-msg{background:var(--bg);border-radius:10px;padding:14px;font-size:13px;color:var(--mid);line-height:1.7;border:1.5px dashed #c5d8f0;white-space:pre-wrap;font-family:inherit;}
+.modal-btns{display:flex;gap:10px;margin-top:16px;}
+.modal-btn{flex:1;padding:10px;border-radius:10px;border:none;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;}
+.modal-copy{background:var(--navy);color:white;}
+.modal-close{background:var(--pale);color:var(--navy);}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>📊 Tracker Ký Số Tài Liệu — VicoMart Retail</h1>
+  <p>Theo dõi trạng thái ký số HĐLĐ + Phiếu xác nhận quy chế của toàn bộ nhân sự</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat green"><div class="stat-val" id="cnt-done">0</div><div class="stat-lbl">✅ Đã ký đủ cả 2</div></div>
+    <div class="stat amber"><div class="stat-val" id="cnt-partial">0</div><div class="stat-lbl">⏳ Ký 1/2 tài liệu</div></div>
+    <div class="stat red"><div class="stat-val" id="cnt-none">0</div><div class="stat-lbl">❌ Chưa ký gì</div></div>
+    <div class="stat"><div class="stat-val" id="cnt-total">0</div><div class="stat-lbl">👤 Tổng nhân sự</div></div>
+  </div>
+
+  <!-- Progress overall -->
+  <div class="progress-wrap" style="background:var(--white);border-radius:12px;padding:16px 20px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px;">
+    <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px;">Tiến độ hoàn thành toàn chuỗi (HĐLĐ + Phiếu xác nhận)</div>
+    <div class="prog-bar-bg"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+    <div class="prog-lbl"><span id="prog-txt">0 / 0 nhân viên hoàn thành</span><span id="prog-pct">0%</span></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab on" onclick="filterTab(this,'all')">Tất cả</div>
+    <div class="tab" onclick="filterTab(this,'PHB')">🏪 Phú Bài</div>
+    <div class="tab" onclick="filterTab(this,'VIT')">🏪 Vinh Thanh</div>
+    <div class="tab" onclick="filterTab(this,'THA')">🏪 Thuận An</div>
+    <div class="tab" onclick="filterTab(this,'done')">✅ Đã ký đủ</div>
+    <div class="tab" onclick="filterTab(this,'pending')">⏳ Chưa đủ</div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <input type="text" id="search" placeholder="🔍 Tìm theo tên nhân viên..." oninput="renderTable()">
+    <select id="sel-doc" onchange="renderTable()">
+      <option value="all">Tất cả tài liệu</option>
+      <option value="hdld">Chỉ HĐLĐ</option>
+      <option value="qc">Chỉ phiếu quy chế</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nhân viên</th>
+          <th>Chi nhánh</th>
+          <th>Chức danh</th>
+          <th>HĐLĐ</th>
+          <th>Phiếu QC</th>
+          <th>Trạng thái</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="tbl-body"></tbody>
+    </table>
+  </div>
+
+  <p style="font-size:12px;color:var(--soft);margin-top:12px;text-align:right;">* Nhấn vào trạng thái để cập nhật · Dữ liệu lưu trong trình duyệt</p>
+</div>
+
+<!-- Modal nhắc nhở -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal">
+    <h3>📤 Tin nhắn nhắc ký</h3>
+    <div class="modal-msg" id="modal-msg"></div>
+    <div class="modal-btns">
+      <button class="modal-btn modal-copy" onclick="copyModalMsg()">📋 Copy để gửi Zalo</button>
+      <button class="modal-btn modal-close" onclick="closeModal()">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Dữ liệu nhân sự (8 user demo từ portal)
+const NV_DEFAULT = [
+  {id:'U01',code:'BGD001',name:'Nguyễn Văn An',  role:'BGĐ',branch:'ALL',phone:'0901111001'},
+  {id:'U02',code:'GSV001',name:'Trần Thị Bình',   role:'GSV',branch:'ALL',phone:'0901111002'},
+  {id:'U03',code:'QLCH01',name:'Lê Văn Cường',   role:'QLC',branch:'PHB',phone:'0901111003'},
+  {id:'U04',code:'QLCH02',name:'Phạm Thị Dung',  role:'QLC',branch:'VIT',phone:'0901111004'},
+  {id:'U05',code:'QLCH03',name:'Hoàng Văn Em',   role:'QLC',branch:'THA',phone:'0901111005'},
+  {id:'U06',code:'TL0001',name:'Vũ Thị Phương',  role:'TL', branch:'PHB',phone:'0901111006'},
+  {id:'U07',code:'NV0001',name:'Đỗ Văn Quang',   role:'NV', branch:'PHB',phone:'0901111007'},
+  {id:'U08',code:'NV0002',name:'Ngô Thị Hà',     role:'NV', branch:'VIT',phone:'0901111008'},
+];
+
+const ROLE_CLASS = {BGĐ:'r-bgd',GSV:'r-gsv',QLC:'r-qlc',TL:'r-tl',NV:'r-nv'};
+const BRANCH_LABEL = {ALL:'Toàn chuỗi',PHB:'Phú Bài',VIT:'Vinh Thanh',THA:'Thuận An'};
+
+function loadData(){
+  const saved = localStorage.getItem('vc_sign_tracker');
+  if(saved) return JSON.parse(saved);
+  return NV_DEFAULT.map(nv=>({...nv, hdld:'none', qc:'none', hdld_date:'', qc_date:''}));
+}
+function saveData(data){ localStorage.setItem('vc_sign_tracker', JSON.stringify(data)); }
+
+let DATA = loadData();
+let currentFilter = 'all';
+
+function filterTab(el, f){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  currentFilter = f;
+  renderTable();
+}
+
+function updateStats(){
+  const done = DATA.filter(d=>d.hdld==='done'&&d.qc==='done').length;
+  const partial = DATA.filter(d=>(d.hdld==='done'||d.qc==='done')&&!(d.hdld==='done'&&d.qc==='done')).length;
+  const none = DATA.filter(d=>d.hdld!=='done'&&d.qc!=='done').length;
+  const total = DATA.length;
+  document.getElementById('cnt-done').textContent = done;
+  document.getElementById('cnt-partial').textContent = partial;
+  document.getElementById('cnt-none').textContent = none;
+  document.getElementById('cnt-total').textContent = total;
+  const pct = total>0?Math.round(done/total*100):0;
+  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('prog-txt').textContent = \`\${done} / \${total} nhân viên hoàn thành\`;
+  document.getElementById('prog-pct').textContent = pct+'%';
+}
+
+function statusBadge(s,date){
+  if(s==='done') return \`<span class="badge b-done">✓ Đã ký\${date?' · '+date:''}</span>\`;
+  if(s==='sent') return \`<span class="badge b-wait">📤 Đã gửi</span>\`;
+  return \`<span class="badge b-none">— Chưa ký</span>\`;
+}
+
+function overallBadge(d){
+  if(d.hdld==='done'&&d.qc==='done') return '<span class="badge b-done">✅ Hoàn thành</span>';
+  if(d.hdld==='done'||d.qc==='done') return '<span class="badge b-pend">⏳ Chờ 1 tài liệu</span>';
+  return '<span class="badge b-none">❌ Chưa ký</span>';
+}
+
+function renderTable(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const docF = document.getElementById('sel-doc').value;
+
+  let filtered = DATA.filter(d=>{
+    const matchSearch = !q || d.name.toLowerCase().includes(q) || d.code.toLowerCase().includes(q);
+    const matchBranch = currentFilter==='all' || currentFilter==='done' || currentFilter==='pending' || d.branch===currentFilter || d.branch==='ALL';
+    const matchStatus = currentFilter==='done'?(d.hdld==='done'&&d.qc==='done'):currentFilter==='pending'?(!(d.hdld==='done'&&d.qc==='done')):true;
+    const matchDoc = docF==='all' || (docF==='hdld'&&d.hdld!=='done') || (docF==='qc'&&d.qc!=='done');
+    return matchSearch && matchBranch && matchStatus;
+  });
+
+  const tbody = document.getElementById('tbl-body');
+  tbody.innerHTML = filtered.map((d,i)=>\`
+    <tr id="row-\${d.id}">
+      <td style="text-align:center;color:var(--soft);font-size:13px;">\${i+1}</td>
+      <td>
+        <div style="font-weight:700;color:var(--navy);font-size:14px;">\${d.name}</div>
+        <div style="font-size:11.5px;color:var(--soft);">\${d.code} · \${d.phone}</div>
+      </td>
+      <td><span class="chi-nhanh">\${BRANCH_LABEL[d.branch]||d.branch}</span></td>
+      <td><span class="role-badge \${ROLE_CLASS[d.role]||'r-nv'}">\${d.role}</span></td>
+      <td>
+        \${statusBadge(d.hdld, d.hdld_date)}
+        <select onchange="updateStatus('\${d.id}','hdld',this.value)" style="display:block;margin-top:5px;font-size:11.5px;border:1px solid #d0dcf0;border-radius:6px;padding:3px 6px;font-family:inherit;cursor:pointer;">
+          <option value="none" \${d.hdld==='none'?'selected':''}>— Chưa ký</option>
+          <option value="sent" \${d.hdld==='sent'?'selected':''}>📤 Đã gửi</option>
+          <option value="done" \${d.hdld==='done'?'selected':''}>✅ Đã ký</option>
+        </select>
+      </td>
+      <td>
+        \${statusBadge(d.qc, d.qc_date)}
+        <select onchange="updateStatus('\${d.id}','qc',this.value)" style="display:block;margin-top:5px;font-size:11.5px;border:1px solid #d0dcf0;border-radius:6px;padding:3px 6px;font-family:inherit;cursor:pointer;">
+          <option value="none" \${d.qc==='none'?'selected':''}>— Chưa ký</option>
+          <option value="sent" \${d.qc==='sent'?'selected':''}>📤 Đã gửi</option>
+          <option value="done" \${d.qc==='done'?'selected':''}>✅ Đã ký</option>
+        </select>
+      </td>
+      <td>\${overallBadge(d)}</td>
+      <td style="white-space:nowrap;">
+        <button class="action-btn btn-remind" onclick="showRemind('\${d.id}')">📤 Nhắc</button>
+      </td>
+    </tr>
+  \`).join('');
+
+  updateStats();
+}
+
+function updateStatus(id, field, val){
+  const d = DATA.find(x=>x.id===id);
+  if(!d) return;
+  d[field] = val;
+  if(val==='done'){
+    d[field+'_date'] = new Date().toLocaleDateString('vi-VN');
+  }
+  saveData(DATA);
+  showToast(val==='done'?'✅ Đã cập nhật — '+(field==='hdld'?'HĐLĐ':'Phiếu QC'):'📝 Đã lưu trạng thái');
+  renderTable();
+}
+
+function showRemind(id){
+  const d = DATA.find(x=>x.id===id);
+  const missing = [];
+  if(d.hdld!=='done') missing.push('Hợp đồng lao động (HĐLĐ)');
+  if(d.qc!=='done') missing.push('Phiếu xác nhận đọc Quy chế & VOS Pro');
+  const msg = \`\${d.name} ơi,
+
+Em chưa hoàn thành ký số các tài liệu sau:
+\${missing.map((m,i)=>\`\${i+1}. \${m}\`).join('
+')}
+
+Cách ký (3 phút):
+1. Nhận file PDF anh gửi kèm
+2. Vào: remotesigning.viettel.vn
+3. Đăng nhập tài khoản MySign
+4. Upload file → Đặt chữ ký vào ô của em → Xác nhận trên app
+5. Tải file đã ký → Gửi lại cho anh/QLC
+
+Chưa có MySign: vào VNeID → Dịch vụ khác → Chứng thư chữ ký số → Đăng ký miễn phí.
+
+Deadline: ___/___/2026. Cần hỗ trợ liên hệ QLC ngay.\`;
+  document.getElementById('modal-msg').textContent = msg;
+  document.getElementById('modal-bg').style.display = 'flex';
+}
+
+function closeModal(e){
+  if(!e || e.target===document.getElementById('modal-bg')) document.getElementById('modal-bg').style.display='none';
+}
+
+function copyModalMsg(){
+  const txt = document.getElementById('modal-msg').textContent;
+  navigator.clipboard.writeText(txt).then(()=>showToast('📋 Đã copy — paste vào Zalo!'));
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(window._tt);
+  window._tt = setTimeout(()=>t.style.display='none', 2500);
+}
+
+renderTable();
+<\/script>
+</body>
+</html>`},
 };
 </script>
 
