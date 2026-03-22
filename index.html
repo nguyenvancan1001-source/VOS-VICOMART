@@ -270,7 +270,7 @@ function renderLogin() {
     + '<label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;">TÊN ĐĂNG NHẬP</label>'
     + '<input id="inp-user" type="text" autocomplete="off" onpaste="return false" placeholder="Nhập tên đăng nhập"'
     + ' style="width:100%;padding:12px 14px;border:1.5px solid ' + bc + ';border-radius:10px;font-size:14px;font-family:inherit;outline:none;"'
-    + ' value="' + u + '" oninput="setState({loginUser:this.value,loginErr:\'\'})"'
+    + ' value="' + u + '"''
     + ' onkeydown="if(event.key===\'Enter\')document.getElementById(\'inp-pass\').focus()"/>'
     + '</div>'
     + '<div style="margin-bottom:10px;">'
@@ -278,9 +278,9 @@ function renderLogin() {
     + '<div style="position:relative;">'
     + '<input id="inp-pass" type="' + (sp?'text':'password') + '" autocomplete="new-password" onpaste="return false" placeholder="Nhập mật khẩu"'
     + ' style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid ' + bc + ';border-radius:10px;font-size:14px;font-family:inherit;outline:none;"'
-    + ' value="' + p + '" oninput="setState({loginPass:this.value,loginErr:\'\'})"'
+    + ' value="' + p + '"''
     + ' onkeydown="if(event.key===\'Enter\')doLogin()"/>'
-    + '<span onclick="setState({loginShowPass:!' + sp + '})" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:18px;">' + (sp?'🙈':'👁️') + '</span>'
+    + '<span onclick="(function(){var pv=document.getElementById('inp-pass')?.value||'';setState({loginPass:pv,loginShowPass:!' + sp + '})()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:18px;">' + (sp?'🙈':'👁️') + '</span>'
     + '</div></div>'
     + (err ? '<div style="color:#dc2626;font-size:13px;padding:9px 12px;background:#fef2f2;border-radius:8px;margin-bottom:12px;">⚠️ ' + err + '</div>' : '')
     + '<button onclick="doLogin()" ' + (loading?'disabled':'') + ' style="width:100%;padding:14px;background:' + (loading?'#90caf9':'linear-gradient(135deg,#1565c0,#1e5cad)') + ';color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;">'
@@ -923,9 +923,11 @@ function sha256hex(str) {
 }
 
 function doLogin() {
-  const u = (state.loginUser||'').trim().toLowerCase();
-  const p = state.loginPass||'';
-  if(!u||!p){setState({loginErr:'Vui lòng nhập đầy đủ thông tin'});return;}
+  const uEl=document.getElementById('inp-user');
+  const pEl=document.getElementById('inp-pass');
+  const u = ((uEl?uEl.value:state.loginUser)||'').trim().toLowerCase();
+  const p = (pEl?pEl.value:state.loginPass)||'';
+  setState({loginErr:''});if(!u||!p){setState({loginErr:'Vui lòng nhập đầy đủ thông tin'});return;}
   setState({loginLoading:true,loginErr:''});
   const hash = sha256hex(p);
   const found = (window._vosUsers||[]).concat(USERS).find(x=>(x.username||'').toLowerCase()===u && x.hash===hash);
