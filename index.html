@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+`<div class="login-screen" style="height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d2b5e 0%,#1a4080 60%,#1e5cad 100%);">
+      <div style="background:white;border-radius:20px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,0.3);">
+        <div style="text-align:center;margin-bottom:28px;">
+          <div style="font-size:28px;font-weight:900;color:#0d2b5e;letter-spacing:2px;">VICO<span style="color:#1e5cad">MART</span></div>
+          <div style="font-size:12px;color:#6b7280;margin-top:4px;letter-spacing:1px;">CỔNG THÔNG TIN NỘI BỘ</div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">TÊN ĐĂNG NHẬP</label>
+          <input id="inp-user" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập"
+            style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;"
+            value="${state.loginUser}"
+            oninput="setState({loginUser:this.value,loginErr:''})"
+            onkeydown="if(event.key==='Enter')document.getElementById('inp-pass').focus()"/>
+        </div>
+        <div style="margin-bottom:8px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">MẬT KHẨU</label>
+          <div style="position:relative;">
+            <input id="inp-pass" type="${state.loginShowPass?'text':'password'}" autocomplete="current-password" placeholder="Nhập mật khẩu"
+              style="width:100%;padding:11px 40px 11px 14px;border:1.5px solid #d1d5db;border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;"
+              value="${state.loginPass}"
+              oninput="setState({loginPass:this.value,loginErr:''})"
+              onkeydown="if(event.key==='Enter')doLogin()"/>
+            <span onclick="setState({loginShowPass:!state.loginShowPass})"
+              style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:18px;">${state.loginShowPass?'🙈':'👁️'}</span>
+          </div>
+        </div>
+        ${state.loginErr?'<div style="color:#dc2626;font-size:13px;padding:8px 12px;background:#fef2f2;border-radius:8px;margin-bottom:12px;">⚠️ '+state.loginErr+'</div>':''}
+        <button onclick="doLogin()" ${state.loginLoading?'disabled':''} style="width:100%;padding:13px;background:linear-gradient(135deg,#1565c0,#1e5cad);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;margin-top:8px;opacity:${state.loginLoading?0.7:1};">
+          ${state.loginLoading?'Đang xác thực...':'Đăng nhập'}
+        </button>
+      </div>
+    </div>`<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -48,14 +79,15 @@ const PERMS={
 };
 const BRANCHES={ALL:'Toàn hệ thống',PHB:'Phú Bài',VIT:'Vinh Thanh',THA:'Thuận An'};
 const USERS=[
-  {id:'U01',name:'Nguyễn Văn An',phone:'0901111001',otp:'111111',role:'BGD',branch:'ALL',dept:'Ban Giám Đốc',avatar:'👑'},
-  {id:'U02',name:'Trần Thị Bình',phone:'0901111002',otp:'222222',role:'GSV',branch:'ALL',dept:'Giám sát vùng',avatar:'🌐'},
-  {id:'U03',name:'Lê Văn Cường',phone:'0901111003',otp:'333333',role:'QLCH',branch:'PHB',dept:'Quản lý Phú Bài',avatar:'🏪'},
-  {id:'U04',name:'Phạm Thị Dung',phone:'0901111004',otp:'444444',role:'QLCH',branch:'VIT',dept:'Quản lý Vinh Thanh',avatar:'🏪'},
-  {id:'U05',name:'Hoàng Văn Em',phone:'0901111005',otp:'555555',role:'QLCH',branch:'THA',dept:'Quản lý Thuận An',avatar:'🏪'},
-  {id:'U06',name:'Vũ Thị Phương',phone:'0901111006',otp:'666666',role:'TL',branch:'PHB',dept:'Trợ lý Phú Bài',avatar:'🎯'},
-  {id:'U07',name:'Đỗ Văn Quang',phone:'0901111007',otp:'777777',role:'NV',branch:'PHB',dept:'NV Phú Bài',avatar:'👤'},
-  {id:'U08',name:'Ngô Thị Hà',phone:'0901111008',otp:'888888',role:'NV',branch:'VIT',dept:'NV Vinh Thanh',avatar:'👤'},
+  {id:'U01',username:'giamdoc',name:'Giám Đốc',hash:'a27e072de054e7b28117061b2330e6111bf90a963b1dc75f12c6bc4b00c66f6f',role:'BGD',branch:'ALL',dept:'Ban Giám Đốc',avatar:'👑'},
+  {id:'U02',username:'pb_ql',name:'Quản Lý Phú Bài',hash:'c74ba024db8012927aac0affff71cb852d05d9ce2292d4095fe960406f6ded12',role:'QLCH',branch:'PHB',dept:'Quản lý cửa hàng',avatar:'🏪'},
+  {id:'U03',username:'vt_ql',name:'Quản Lý Vinh Thanh',hash:'054759182c0cf0db6417dd2a5746399d00067c99625b1274485481380e9910c6',role:'QLCH',branch:'VIT',dept:'Quản lý cửa hàng',avatar:'🏪'},
+  {id:'U04',username:'ta_ql',name:'Quản Lý Thuận An',hash:'5e5411ebac358be7a09681b2b17fba0a0315dd30a14bd2c74584695865dcbc24',role:'QLCH',branch:'THA',dept:'Quản lý cửa hàng',avatar:'🏪'},
+  {id:'U05',username:'pb_tl',name:'Trợ Lý Phú Bài',hash:'72bcdd4de329b09f12840ab54af000ce91906b556bce0a369002e4f7dd88e661',role:'TL',branch:'PHB',dept:'Trợ lý',avatar:'🎯'},
+  {id:'U06',username:'vt_tl',name:'Trợ Lý Vinh Thanh',hash:'eee34131f05d3a813bafb76cca98e9d3a407773cd189d31b29d5d143343e8074',role:'TL',branch:'VIT',dept:'Trợ lý',avatar:'🎯'},
+  {id:'U07',username:'ta_tl',name:'Trợ Lý Thuận An',hash:'78054aa4f0ed222d678e0803e494d555ad375334b4094248148b5630fe4f24d0',role:'TL',branch:'THA',dept:'Trợ lý',avatar:'🎯'},
+  {id:'U08',username:'nv_ca1',name:'Nhân Viên Ca 1',hash:'03e988260fdd02d1f1d2a0344f20bb48606393c33af43bd8633a2ddfba73a350',role:'NV',branch:'PHB',dept:'Nhân viên',avatar:'👤'},
+  {id:'U09',username:'nv_ca2',name:'Nhân Viên Ca 2',hash:'2df9a261703b5f0e4f0a94d1f712d885db46e595dedae835b4a1b3c6fe8ce0fd',role:'NV',branch:'PHB',dept:'Nhân viên',avatar:'👤'},
 ];
 const GROUPS=[
   {id:'g1',name:'Lương & Làm việc',icon:'💼',color:'#1565c0',docs:['d01','d02']},
@@ -154,15 +186,11 @@ let state = {
   sideCollapsed: false,
   notifOpen: false,
   // Login
-  loginStep: 'phone',
-  loginPhone: '',
-  loginOtp: ['','','','','',''],
-  loginPending: null,
-  loginGenOtp: '',
+  loginUser: '',
+  loginPass: '',
+  loginShowPass: false,
   loginErr: '',
   loginLoading: false,
-  loginDemo: false,
-  loginCountdown: 0,
 };
 
 function setState(updates) {
@@ -245,91 +273,43 @@ function icon(name, size=18, color='currentColor') {
 ══════════════════════════════════════ */
 function renderLogin() {
   const t = th();
-  const {loginStep:step,loginPhone:phone,loginOtp:otp,loginErr:err,loginLoading:loading,loginDemo:demo,loginGenOtp:genOtp,loginPending:pending,loginCountdown:cd} = state;
-
   return `
-  <div style="min-height:100vh;background:linear-gradient(160deg,${t.hdr1} 0%,${t.hdr2} 55%,#1e88e5 100%);display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto;">
-    <div style="width:100%;max-width:960px;display:grid;grid-template-columns:1fr 1fr;border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.4);">
-      <!-- Left branding -->
-      <div style="background:linear-gradient(145deg,#051e3e,#0a3d6b);padding:52px 44px;display:flex;flex-direction:column;justify-content:space-between;">
-        <div>
-          <div style="display:flex;align-items:center;gap:14px;margin-bottom:48px;">
-            <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:26px;">🏪</div>
-            <div>
-              <div style="font-size:22px;font-weight:900;color:white;letter-spacing:.5px;">VicoMart</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;">Cổng Thông Tin Nội Bộ v3.0</div>
-            </div>
-          </div>
-          <div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:white;line-height:1.2;margin-bottom:14px;">Toàn bộ 21 quy chế<br/>vận hành VicoMart</div>
-          <p style="font-size:14px;color:rgba(255,255,255,0.62);line-height:1.8;margin-bottom:32px;">Nội dung đầy đủ từ tất cả file gốc. Phân quyền 5 cấp. Dashboard phân tích trực quan.</p>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            ${[['📋','21 quy chế — nội dung đầy đủ từ file gốc'],['🛡️','Phân quyền 5 cấp vai trò × 3 chi nhánh'],['📊','Dashboard phân tích hoạt động'],['✏️','Chỉnh sửa nội dung (QLCH trở lên)']].map(([ic,tx])=>`
-            <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,0.75);font-weight:500;">
-              <span style="font-size:16px;">${ic}</span>${tx}
-            </div>`).join('')}
-          </div>
+  <div style="min-height:100vh;background:linear-gradient(160deg,${t.hdr1} 0%,${t.hdr2} 55%,#1e88e5 100%);display:flex;align-items:center;justify-content:center;padding:24px;">
+    <div style="background:white;border-radius:20px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,0.35);">
+      <div style="text-align:center;margin-bottom:32px;">
+        <div style="font-size:30px;font-weight:900;color:#0d2b5e;letter-spacing:2px;">VICO<span style="color:#1e5cad">MART</span></div>
+        <div style="font-size:11px;color:#6b7280;margin-top:5px;letter-spacing:1.5px;font-weight:600;">CỔNG THÔNG TIN NỘI BỘ</div>
+      </div>
+      <div style="margin-bottom:18px;">
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;letter-spacing:.5px;">TÊN ĐĂNG NHẬP</label>
+        <input id="inp-user" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập"
+          style="width:100%;padding:12px 14px;border:1.5px solid ${state.loginErr?'#fca5a5':'#d1d5db'};border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border .2s;"
+          value="${state.loginUser||''}"
+          oninput="setState({loginUser:this.value,loginErr:''})"
+          onkeydown="if(event.key==='Enter')document.getElementById('inp-pass').focus()"/>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;letter-spacing:.5px;">MẬT KHẨU</label>
+        <div style="position:relative;">
+          <input id="inp-pass" type="${state.loginShowPass?'text':'password'}" autocomplete="current-password" placeholder="Nhập mật khẩu"
+            style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid ${state.loginErr?'#fca5a5':'#d1d5db'};border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border .2s;"
+            value="${state.loginPass||''}"
+            oninput="setState({loginPass:this.value,loginErr:''})"
+            onkeydown="if(event.key==='Enter')doLogin()"/>
+          <span onclick="setState({loginShowPass:!state.loginShowPass})"
+            style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:16px;user-select:none;">
+            ${state.loginShowPass?'🙈':'👁️'}
+          </span>
         </div>
-        <div style="font-size:11.5px;color:rgba(255,255,255,0.3);">VicoMart Web Portal v3.0 © 2026</div>
       </div>
-      <!-- Right form -->
-      <div style="background:white;padding:52px 44px;display:flex;flex-direction:column;justify-content:center;">
-        ${step==='phone' ? `
-          <div style="font-size:26px;font-weight:900;color:#0a1628;margin-bottom:6px;">Đăng nhập</div>
-          <div style="font-size:13.5px;color:#8fa3c8;margin-bottom:32px;">Nhập số điện thoại đăng ký trong hệ thống</div>
-          <label style="font-size:12px;font-weight:700;color:#4a6080;display:block;margin-bottom:7px;letter-spacing:.5px;">SỐ ĐIỆN THOẠI</label>
-          <div style="display:flex;align-items:center;gap:10px;background:#f5f8ff;border:1.5px solid ${err?'#d32f2f':phone?'#1565c0':'#dde8f8'};border-radius:13px;padding:13px 16px;margin-bottom:16px;transition:all .2s;">
-            <span style="font-size:16px;">🇻🇳</span>
-            <span style="font-size:13px;font-weight:700;color:#8fa3c8;margin-right:4px;">+84</span>
-            <div style="width:1px;height:18px;background:#dde8f8;"></div>
-            <input id="phoneInput" value="${fmtPhone(phone)}" oninput="handlePhoneInput(this.value)" onkeydown="if(event.key==='Enter')sendOTP()"
-              placeholder="0901 234 567" type="tel"
-              style="flex:1;background:none;border:none;outline:none;font-size:15px;font-weight:700;color:#0a1628;font-family:'Be Vietnam Pro',sans-serif;">
-          </div>
-          ${err?`<div style="background:#ffebee;border-radius:10px;padding:10px 14px;margin-bottom:14px;color:#d32f2f;font-size:13px;font-weight:500;">${err}</div>`:''}
-          <button onclick="sendOTP()" style="padding:14px;border-radius:13px;border:none;cursor:pointer;background:${loading?'#90caf9':'linear-gradient(135deg,#1565c0,#42a5f5)'};color:white;font-family:'Be Vietnam Pro',sans-serif;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(21,101,192,0.3);margin-bottom:20px;">
-            ${loading?`<div style="width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;"></div>`:''}
-            ${loading?'Đang gửi OTP...':'Gửi mã OTP →'}
-          </button>
-          <button onclick="setState({loginDemo:!state.loginDemo})" style="background:none;border:1px dashed #dde8f8;border-radius:10px;padding:10px;cursor:pointer;font-size:12.5px;font-weight:600;color:#8fa3c8;font-family:'Be Vietnam Pro',sans-serif;">
-            ${demo?'▲ Ẩn':'▼ Hiện'} tài khoản demo
-          </button>
-          ${demo?`<div style="margin-top:10px;display:flex;flex-direction:column;gap:5px;max-height:240px;overflow-y:auto;">
-            ${USERS.map(u=>`
-            <button onclick="setState({loginPhone:'${u.phone}',loginErr:''})" style="display:flex;align-items:center;gap:10px;background:none;border:1px solid #dde8f8;border-radius:9px;padding:8px 12px;cursor:pointer;text-align:left;font-family:'Be Vietnam Pro',sans-serif;transition:all .15s;" onmouseover="this.style.borderColor='#1565c0'" onmouseout="this.style.borderColor='#dde8f8'">
-              <span style="font-size:18px;">${u.avatar}</span>
-              <div style="flex:1;">
-                <div style="font-size:12.5px;font-weight:700;color:#0a1628;">${u.name}</div>
-                <div style="font-size:11px;color:#8fa3c8;">${u.phone} · OTP: <strong style="color:#1565c0;">${u.otp}</strong></div>
-              </div>
-              <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;background:${ROLES[u.role].color}18;color:${ROLES[u.role].color};">${ROLES[u.role].short}</span>
-            </button>`).join('')}
-          </div>`:''}
-        ` : `
-          <button onclick="setState({loginStep:'phone',loginErr:''})" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:#1565c0;font-weight:600;font-size:13px;margin-bottom:28px;padding:0;font-family:'Be Vietnam Pro',sans-serif;">
-            ${icon('back',16,'#1565c0')} Thay đổi số
-          </button>
-          <div style="font-size:26px;font-weight:900;color:#0a1628;margin-bottom:6px;">Nhập mã OTP</div>
-          <div style="font-size:13.5px;color:#8fa3c8;margin-bottom:8px;">Mã 6 số đã gửi đến <strong>${phone.replace(/(\d{4})(\d{3})(\d{3})/,'$1 *** $3')}</strong></div>
-          <div style="background:#e3f2fd;border-radius:10px;padding:10px 14px;margin-bottom:24px;font-size:13px;color:#1565c0;font-weight:600;">🔑 Demo OTP: <strong>${genOtp}</strong></div>
-          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;">
-            ${otp.map((v,i)=>`<input id="otp${i}" maxlength="1" value="${v}"
-              oninput="handleOtpInput(${i},this.value)"
-              onkeydown="handleOtpKey(${i},event)"
-              inputmode="numeric"
-              style="width:48px;height:56px;border-radius:12px;border:2px solid ${v?'#1565c0':'#dde8f8'};background:#f5f8ff;text-align:center;font-size:24px;font-weight:800;color:#0a1628;outline:none;font-family:'Be Vietnam Pro',sans-serif;transition:all .15s;">`).join('')}
-          </div>
-          ${err?`<div style="background:#ffebee;border-radius:10px;padding:10px 14px;margin-bottom:14px;color:#d32f2f;font-size:13px;font-weight:500;">${err}</div>`:''}
-          ${loading?`<div style="text-align:center;padding:8px;color:#8fa3c8;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;"><div style="width:16px;height:16px;border:2.5px solid rgba(21,101,192,0.3);border-top-color:#1565c0;border-radius:50%;animation:spin .7s linear infinite;"></div>Đang xác thực...</div>`:''}
-          ${cd>0?`<div style="text-align:center;font-size:13px;color:#8fa3c8;margin-top:12px;">Gửi lại sau <strong style="color:#1565c0;">${cd}s</strong></div>`:`<button onclick="resendOTP()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#1565c0;font-weight:600;font-family:'Be Vietnam Pro',sans-serif;display:block;margin:12px auto 0;">Gửi lại OTP</button>`}
-        `}
-      </div>
+      ${state.loginErr?'<div style="color:#dc2626;font-size:13px;padding:9px 12px;background:#fef2f2;border-radius:8px;margin-bottom:14px;">⚠️ '+state.loginErr+'</div>':''}
+      <button onclick="doLogin()" ${state.loginLoading?'disabled':''} style="width:100%;padding:14px;background:${state.loginLoading?'#90caf9':'linear-gradient(135deg,#1565c0,#1e5cad)'};color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;margin-top:6px;letter-spacing:.5px;">
+        ${state.loginLoading?'Đang xác thực...':'Đăng nhập →'}
+      </button>
     </div>
   </div>`;
 }
 
-/* ══════════════════════════════════════
-   MAIN LAYOUT
-══════════════════════════════════════ */
 function renderApp() {
   const t = th();
   const user = state.user;
@@ -391,7 +371,7 @@ function renderApp() {
           <button onclick="setState({dark:!state.dark})" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="${state.dark?'Light mode':'Dark mode'}">
             ${icon(state.dark?'sun':'moon',15,'rgba(255,255,255,0.6)')}
           </button>
-          <button onclick="setState({user:null,loginStep:'phone',loginPhone:'',loginOtp:['','','','','','']})" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="Đăng xuất">
+          <button onclick="setState({user:null,loginOtp:['','','','','','']})" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="Đăng xuất">
             ${icon('logout',15,'rgba(255,255,255,0.6)')}
           </button>
           <button onclick="setState({sideCollapsed:!state.sideCollapsed})" style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
@@ -855,88 +835,30 @@ function renderNotifPanel() {
 /* ══════════════════════════════════════
    EVENT HANDLERS
 ══════════════════════════════════════ */
-let countdownTimer = null;
 
-function handlePhoneInput(v) {
-  const raw = v.replace(/\s/g,'');
-  setState({loginPhone:raw, loginErr:''});
+
+function sha256hex(str) {
+  function r(n,b){return(n>>>b)|(n<<(32-b));}
+  function S(s){var buf=new Uint8Array(s.length*4),i=0,c;for(var j=0;j<s.length;j++){c=s.charCodeAt(j);if(c<0x80){buf[i++]=c;}else if(c<0x800){buf[i++]=(c>>6)|0xC0;buf[i++]=(c&0x3F)|0x80;}else{buf[i++]=(c>>12)|0xE0;buf[i++]=((c>>6)&0x3F)|0x80;buf[i++]=(c&0x3F)|0x80;}}return buf.slice(0,i);}
+  var b=S(str),len=b.length,k=[],h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  var rc=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  var pp=new Uint8Array(Math.ceil((len+9)/64)*64);pp.set(b);pp[len]=0x80;var dv=new DataView(pp.buffer);dv.setUint32(pp.length-4,len*8);
+  for(var bi=0;bi<pp.length;bi+=64){var w=new Uint32Array(64);for(var wi=0;wi<16;wi++)w[wi]=dv.getUint32(bi+wi*4);for(var wi=16;wi<64;wi++){var s0=(r(w[wi-15],7)^r(w[wi-15],18)^(w[wi-15]>>>3));var s1=(r(w[wi-2],17)^r(w[wi-2],19)^(w[wi-2]>>>10));w[wi]=(w[wi-16]+s0+w[wi-7]+s1)>>>0;}var a=h[0],b2=h[1],cc=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];for(var wi=0;wi<64;wi++){var S1=(r(e,6)^r(e,11)^r(e,25));var ch=(e&f)^(~e&g);var t1=(hh+S1+ch+rc[wi]+w[wi])>>>0;var S0=(r(a,2)^r(a,13)^r(a,22));var maj=(a&b2)^(a&cc)^(b2&cc);var t2=(S0+maj)>>>0;hh=g;g=f;f=e;e=(d+t1)>>>0;d=cc;cc=b2;b2=a;a=(t1+t2)>>>0;}h[0]=(h[0]+a)>>>0;h[1]=(h[1]+b2)>>>0;h[2]=(h[2]+cc)>>>0;h[3]=(h[3]+d)>>>0;h[4]=(h[4]+e)>>>0;h[5]=(h[5]+f)>>>0;h[6]=(h[6]+g)>>>0;h[7]=(h[7]+hh)>>>0;}
+  return h.map(v=>('00000000'+v.toString(16)).slice(-8)).join('');
 }
 
-async function sendOTP() {
-  const phone = state.loginPhone.replace(/\D/g,'');
-  if(phone.length < 9) { setState({loginErr:'Số điện thoại không hợp lệ'}); return; }
-  setState({loginLoading:true, loginErr:''});
-
-  // Tìm user
-  const u = (window._vosUsers||[]).concat(USERS).find(x=>x.phone===phone);
-  if(!u) { setState({loginLoading:false, loginErr:'Số điện thoại chưa đăng ký trong hệ thống'}); return; }
-
-  // Tạo OTP
-  const otp = String(Math.floor(100000 + Math.random() * 900000));
-  const expiresAt = new Date(Date.now() + 300000).toISOString();
-
-  // Lưu OTP vào Supabase
-  try {
-    await supabase.from('vos_otp').insert({ phone, code: otp, expires_at: expiresAt, used: false });
-  } catch(e) { console.warn('OTP save error:', e); }
-
-  setState({loginLoading:false, loginStep:'otp', loginGenOtp:otp, loginPending:u, loginOtp:['','','','','',''], loginCountdown:60});
-  startCountdown();
-  console.log('[VOS] OTP:', otp, '(hiển thị để test - sẽ gửi Zalo khi có kết nối)');
-}
-
-function startCountdown() {
-  clearInterval(countdownTimer);
-  countdownTimer = setInterval(()=>{
-    if(state.loginCountdown <= 0) { clearInterval(countdownTimer); return; }
-    setState({loginCountdown: state.loginCountdown - 1});
-  }, 1000);
-}
-
-function resendOTP() { setState({loginCountdown:60}); startCountdown(); }
-
-function handleOtpInput(i, v) {
-  if(!/^\d*$/.test(v)) return;
-  const otp = [...state.loginOtp];
-  otp[i] = v.slice(-1);
-  setState({loginOtp:otp});
-  if(v && i<5) document.getElementById(`otp${i+1}`)?.focus();
-  if(otp.every(x=>x)) verifyOTP(otp.join(''));
-}
-
-function handleOtpKey(i, e) {
-  if(e.key==='Backspace' && !state.loginOtp[i] && i>0) document.getElementById(`otp${i-1}`)?.focus();
-}
-
-async function verifyOTP(code) {
-  setState({loginLoading:true, loginErr:''});
-  const phone = state.loginPending?.phone;
-
-  // Verify qua Supabase
-  let valid = false;
-  try {
-    const now = new Date().toISOString();
-    const {data} = await supabase.from('vos_otp')
-      .select('id').eq('phone', phone).eq('code', code)
-      .eq('used', false).gte('expires_at', now)
-      .order('created_at', {ascending:false}).limit(1);
-    if(data && data.length > 0) {
-      valid = true;
-      await supabase.from('vos_otp').update({used:true}).eq('id', data[0].id);
-    }
-  } catch(e) { console.warn('verify error:', e); }
-
-  // Fallback: check local OTP
-  if(!valid && code === state.loginGenOtp && state.loginGenOtp) valid = true;
-
-  if(valid) {
-    try { await supabase.from('vos_sessions').insert({user_id: state.loginPending?.id, device: navigator.userAgent.substring(0,100)}); } catch(e) {}
-    const u = state.loginPending;
-    setState({loginLoading:false, user:u});
-    loadUserData(u);
+function doLogin() {
+  const u = (state.loginUser || '').trim().toLowerCase();
+  const p = state.loginPass || '';
+  if (!u || !p) { setState({loginErr:'Vui lòng nhập tên đăng nhập và mật khẩu'}); return; }
+  setState({loginLoading: true, loginErr: ''});
+  const hash = sha256hex(p);
+  const found = (window._vosUsers || []).concat(USERS).find(x => (x.username||'').toLowerCase() === u && x.hash === hash);
+  if (found) {
+    setState({loginLoading: false, user: found, loginErr: ''});
+    loadUserData(found);
   } else {
-    setState({loginLoading:false, loginErr:'Mã OTP không đúng', loginOtp:['','','','','','']});
-    document.getElementById('otp0')?.focus();
+    setState({loginLoading: false, loginErr: 'Sai tên đăng nhập hoặc mật khẩu'});
   }
 }
 
@@ -1588,7 +1510,7 @@ const DOCS_HTML = {
   function tryAutoLogin() {
     var allUsers = (window._vosUsers || []).concat(typeof USERS !== 'undefined' ? USERS : []);
     var u = allUsers.find(function(x) {
-      return x.phone === ssoUser || x.id === ssoUser || (x.username && x.username === ssoUser);
+      return x.username === ssoUser || x.id === ssoUser;
     });
     if (!u) return false;
 
