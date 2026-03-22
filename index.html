@@ -1,35 +1,4 @@
-`<div class="login-screen" style="height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d2b5e 0%,#1a4080 60%,#1e5cad 100%);">
-      <div style="background:white;border-radius:20px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(0,0,0,0.3);">
-        <div style="text-align:center;margin-bottom:28px;">
-          <div style="font-size:28px;font-weight:900;color:#0d2b5e;letter-spacing:2px;">VICO<span style="color:#1e5cad">MART</span></div>
-          <div style="font-size:12px;color:#6b7280;margin-top:4px;letter-spacing:1px;">CỔNG THÔNG TIN NỘI BỘ</div>
-        </div>
-        <div style="margin-bottom:20px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">TÊN ĐĂNG NHẬP</label>
-          <input id="inp-user" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập"
-            style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;"
-            value="${state.loginUser}"
-            oninput="setState({loginUser:this.value,loginErr:''})"
-            onkeydown="if(event.key==='Enter')document.getElementById('inp-pass').focus()"/>
-        </div>
-        <div style="margin-bottom:8px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">MẬT KHẨU</label>
-          <div style="position:relative;">
-            <input id="inp-pass" type="${state.loginShowPass?'text':'password'}" autocomplete="current-password" placeholder="Nhập mật khẩu"
-              style="width:100%;padding:11px 40px 11px 14px;border:1.5px solid #d1d5db;border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;"
-              value="${state.loginPass}"
-              oninput="setState({loginPass:this.value,loginErr:''})"
-              onkeydown="if(event.key==='Enter')doLogin()"/>
-            <span onclick="setState({loginShowPass:!state.loginShowPass})"
-              style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:18px;">${state.loginShowPass?'🙈':'👁️'}</span>
-          </div>
-        </div>
-        ${state.loginErr?'<div style="color:#dc2626;font-size:13px;padding:8px 12px;background:#fef2f2;border-radius:8px;margin-bottom:12px;">⚠️ '+state.loginErr+'</div>':''}
-        <button onclick="doLogin()" ${state.loginLoading?'disabled':''} style="width:100%;padding:13px;background:linear-gradient(135deg,#1565c0,#1e5cad);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;margin-top:8px;opacity:${state.loginLoading?0.7:1};">
-          ${state.loginLoading?'Đang xác thực...':'Đăng nhập'}
-        </button>
-      </div>
-    </div>`<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -273,41 +242,43 @@ function icon(name, size=18, color='currentColor') {
 ══════════════════════════════════════ */
 function renderLogin() {
   const t = th();
-  return `
-  <div style="min-height:100vh;background:linear-gradient(160deg,${t.hdr1} 0%,${t.hdr2} 55%,#1e88e5 100%);display:flex;align-items:center;justify-content:center;padding:24px;">
-    <div style="background:white;border-radius:20px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,0.35);">
-      <div style="text-align:center;margin-bottom:32px;">
-        <div style="font-size:30px;font-weight:900;color:#0d2b5e;letter-spacing:2px;">VICO<span style="color:#1e5cad">MART</span></div>
-        <div style="font-size:11px;color:#6b7280;margin-top:5px;letter-spacing:1.5px;font-weight:600;">CỔNG THÔNG TIN NỘI BỘ</div>
-      </div>
-      <div style="margin-bottom:18px;">
-        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;letter-spacing:.5px;">TÊN ĐĂNG NHẬP</label>
-        <input id="inp-user" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập"
-          style="width:100%;padding:12px 14px;border:1.5px solid ${state.loginErr?'#fca5a5':'#d1d5db'};border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border .2s;"
-          value="${state.loginUser||''}"
-          oninput="setState({loginUser:this.value,loginErr:''})"
-          onkeydown="if(event.key==='Enter')document.getElementById('inp-pass').focus()"/>
-      </div>
-      <div style="margin-bottom:10px;">
-        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;letter-spacing:.5px;">MẬT KHẨU</label>
-        <div style="position:relative;">
-          <input id="inp-pass" type="${state.loginShowPass?'text':'password'}" autocomplete="current-password" placeholder="Nhập mật khẩu"
-            style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid ${state.loginErr?'#fca5a5':'#d1d5db'};border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border .2s;"
-            value="${state.loginPass||''}"
-            oninput="setState({loginPass:this.value,loginErr:''})"
-            onkeydown="if(event.key==='Enter')doLogin()"/>
-          <span onclick="setState({loginShowPass:!state.loginShowPass})"
-            style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:16px;user-select:none;">
-            ${state.loginShowPass?'🙈':'👁️'}
-          </span>
-        </div>
-      </div>
-      ${state.loginErr?'<div style="color:#dc2626;font-size:13px;padding:9px 12px;background:#fef2f2;border-radius:8px;margin-bottom:14px;">⚠️ '+state.loginErr+'</div>':''}
-      <button onclick="doLogin()" ${state.loginLoading?'disabled':''} style="width:100%;padding:14px;background:${state.loginLoading?'#90caf9':'linear-gradient(135deg,#1565c0,#1e5cad)'};color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;margin-top:6px;letter-spacing:.5px;">
-        ${state.loginLoading?'Đang xác thực...':'Đăng nhập →'}
-      </button>
-    </div>
-  </div>`;
+  const u = state.loginUser || '';
+  const p = state.loginPass || '';
+  const sp = state.loginShowPass;
+  const err = state.loginErr || '';
+  const loading = state.loginLoading;
+  const borderErr = err ? '#fca5a5' : '#d1d5db';
+  return '<div style="min-height:100vh;background:linear-gradient(160deg,' + t.hdr1 + ' 0%,' + t.hdr2 + ' 55%,#1e88e5 100%);display:flex;align-items:center;justify-content:center;padding:24px;">'
+    + '<div style="background:white;border-radius:20px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,0.35);">'
+    + '<div style="text-align:center;margin-bottom:32px;">'
+    + '<div style="font-size:30px;font-weight:900;color:#0d2b5e;letter-spacing:2px;">VICO<span style="color:#1e5cad">MART</span></div>'
+    + '<div style="font-size:11px;color:#6b7280;margin-top:5px;letter-spacing:1.5px;font-weight:600;">CỔNG THÔNG TIN NỘI BỘ</div>'
+    + '</div>'
+    + '<div style="margin-bottom:18px;">'
+    + '<label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;letter-spacing:.5px;">TÊN ĐĂNG NHẬP</label>'
+    + '<input id="inp-user" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập"'
+    + ' style="width:100%;padding:12px 14px;border:1.5px solid ' + borderErr + ';border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;"'
+    + ' value="' + u.replace(/"/g,'"') + '"'
+    + ' oninput="setState({loginUser:this.value,loginErr:\'\'})"'
+    + ' onkeydown="if(event.key===\'Enter\')document.getElementById(\'inp-pass\').focus()"/>'
+    + '</div>'
+    + '<div style="margin-bottom:10px;">'
+    + '<label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;letter-spacing:.5px;">MẬT KHẨU</label>'
+    + '<div style="position:relative;">'
+    + '<input id="inp-pass" type="' + (sp?'text':'password') + '" autocomplete="current-password" placeholder="Nhập mật khẩu"'
+    + ' style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid ' + borderErr + ';border-radius:10px;font-size:14px;font-family:'Be Vietnam Pro',sans-serif;outline:none;"'
+    + ' value="' + p.replace(/"/g,'"') + '"'
+    + ' oninput="setState({loginPass:this.value,loginErr:\'\'})"'
+    + ' onkeydown="if(event.key===\'Enter\')doLogin()"/>'
+    + '<span onclick="setState({loginShowPass:!' + sp + '})" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#9ca3af;font-size:16px;user-select:none;">' + (sp?'🙈':'👁️') + '</span>'
+    + '</div>'
+    + '</div>'
+    + (err ? '<div style="color:#dc2626;font-size:13px;padding:9px 12px;background:#fef2f2;border-radius:8px;margin-bottom:14px;">⚠️ ' + err + '</div>' : '')
+    + '<button onclick="doLogin()" ' + (loading?'disabled':'') + ' style="width:100%;padding:14px;background:' + (loading?'#90caf9':'linear-gradient(135deg,#1565c0,#1e5cad)') + ';color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;margin-top:6px;">'
+    + (loading ? 'Đang xác thực...' : 'Đăng nhập →')
+    + '</button>'
+    + '</div>'
+    + '</div>';
 }
 
 function renderApp() {
