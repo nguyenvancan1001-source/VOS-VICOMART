@@ -484,11 +484,15 @@ function renderDocViewer() {
     <!-- iframe -->
     <iframe id="docFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
       style="flex:1;width:100%;border:none;background:white;"
-      srcdoc="${escapeAttr(DOCS_HTML[id]?.html || '<p>Đang tải...</p>')}">
+      srcdoc="${escapeAttr(injectLinkFix(DOCS_HTML[id]?.html || '<p>Đang tải...</p>'))}">
     </iframe>
   </div>`;
 }
 
+function injectLinkFix(html) {
+  const fix = `<script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&a.href&&!a.href.startsWith(location.origin)&&a.href.startsWith('http')){e.preventDefault();window.open(a.href,'_blank','noopener,noreferrer');}});<\/script>`;
+  return html.replace('</body>', fix + '</body>');
+}
 function escapeAttr(s) {
   return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
