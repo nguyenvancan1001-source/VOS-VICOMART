@@ -143,7 +143,8 @@ let state = {
   docEdits: {},
   docUpdates: {},
   adminTab: 'perms',
-  kysoTab: 'huong-dan',
+  kysoTab: 'ky-tai-lieu',
+  signStatus: {},
 
   user: null,
   page: 'home',      // home | docs | analytics | users
@@ -303,56 +304,167 @@ function doLogin() {
 }
 function renderKySo() {
   const t = th();
-  const tab = state.kysoTab || 'huong-dan';
+  const tab = state.kysoTab || 'ky-tai-lieu';
   const perm = PERMS[state.user.role];
+  const user = state.user;
+
+  // Danh sách tài liệu cần ký theo vai trò
+  const KY_DOCS = [
+    {id:'hdld',   icon:'📄', title:'Hợp đồng lao động (HĐLĐ)',         file:'vicomart-hdld-mau-ky-so.docx',         url:'https://vos.vicomart.vn/assets/vicomart-hdld-mau-ky-so.docx',         roles:['BGD','GSV','QLCH','TL','NV'], signers:2, desc:'BGĐ ký trước → NV ký sau'},
+    {id:'qc',     icon:'📋', title:'Phiếu xác nhận đọc Quy chế & VOS', file:'vicomart-phieu-xn-quy-che.docx',        url:'https://vos.vicomart.vn/assets/vicomart-phieu-xn-quy-che.docx',        roles:['BGD','GSV','QLCH','TL','NV'], signers:2, desc:'QLC xác nhận → NV cam kết'},
+    {id:'bm04',   icon:'📦', title:'Biên bản kiểm kê tháng (BM-04)',   file:'bm-04-kiem-ke.pdf',                    url:'',                                                                       roles:['BGD','GSV','QLCH'],          signers:2, desc:'QLC + Kế toán ký'},
+    {id:'bm08',   icon:'🔍', title:'Biên bản audit nội bộ (BM-08)',    file:'bm-08-audit.pdf',                      url:'',                                                                       roles:['BGD','GSV'],                 signers:2, desc:'GSV + QLC ký'},
+  ];
+
+  const myDocs = KY_DOCS.filter(d => d.roles.includes(user.role));
+  const signUrl = 'https://remotesigning.viettel.vn';
+
+  // Trạng thái ký (lưu trong state)
+  const signStatus = state.signStatus || {};
 
   const tabs = [
-    {id:'huong-dan', lbl:'📱 Hướng dẫn NV', key:'ky_huong_dan', desc:'Hướng dẫn đăng ký & sử dụng MySign'},
-    {id:'workflow',  lbl:'⚡ Quy trình ký',  key:'ky_workflow',  desc:'Luồng ký HĐLĐ & tài liệu nội bộ'},
-    {id:'tracker',   lbl:'📊 Tracker NV',    key:'ky_tracker',   desc:'Theo dõi trạng thái ký 8 NV'},
-    {id:'checklist', lbl:'✅ Checklist BGĐ', key:'ky_checklist', desc:'Các bước triển khai ký số', level:4},
-  ].filter(tb => !tb.level || ROLES[state.user.role].level >= tb.level);
+    {id:'ky-tai-lieu', lbl:'✍️ Ký tài liệu'},
+    {id:'huong-dan',   lbl:'📱 Hướng dẫn'},
+    {id:'tracker',     lbl:'📊 Tracker NV', minLevel:3},
+    {id:'checklist',   lbl:'✅ Checklist',  minLevel:4},
+  ].filter(tb => !tb.minLevel || ROLES[user.role].level >= tb.minLevel);
 
-  const activeTab = tabs.find(tb => tb.id === tab) || tabs[0];
+  const iframeKeys = {
+    'huong-dan': 'ky_huong_dan',
+    'tracker':   'ky_tracker',
+    'checklist': 'ky_checklist',
+  };
 
-  return `<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
-    <!-- Header -->
-    <div style="padding:20px 32px 0;background:${t.card};border-bottom:1px solid ${t.bd};flex-shrink:0;">
-      <div style="font-size:20px;font-weight:800;color:${t.txt};margin-bottom:2px;">✍️ Ký Số Điện Tử — MySign Viettel</div>
-      <div style="font-size:13px;color:${t.mut};margin-bottom:14px;">Chữ ký số có giá trị pháp lý đầy đủ · Chuẩn eIDAS · Miễn phí qua VNeID</div>
-      <!-- Quick info bar -->
-      <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:7px;background:#e8f7ef;border-radius:8px;padding:6px 14px;font-size:12.5px;font-weight:600;color:#1a7a3c;">
-          ✅ Gói miễn phí qua VNeID
+  const renderKyTab = () => `
+    <div style="padding:24px 32px;overflow-y:auto;flex:1;">
+
+      <!-- Info bar -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;">
+        <div style="background:#e8f7ef;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:600;color:#1a7a3c;">✅ Gói miễn phí qua VNeID</div>
+        <div style="background:#e8f1fb;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:600;color:#1565c0;">
+          🔗 <a href="${signUrl}" target="_blank" style="color:#1565c0;text-decoration:none;">${signUrl.replace('https://','')}</a>
         </div>
-        <div style="display:flex;align-items:center;gap:7px;background:#e8f1fb;border-radius:8px;padding:6px 14px;font-size:12.5px;font-weight:600;color:#1565c0;">
-          🔗 remotesigning.viettel.vn
-        </div>
-        <div style="display:flex;align-items:center;gap:7px;background:#fff3cd;border-radius:8px;padding:6px 14px;font-size:12.5px;font-weight:600;color:#856404;">
-          👤 giamdoc / vicomart@2026
+        <div style="background:#fff3cd;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:600;color:#856404;">⏱️ Timeout: 3 phút mỗi yêu cầu ký</div>
+      </div>
+
+      <!-- Danh sách tài liệu -->
+      <div style="font-size:14px;font-weight:700;color:${t.txt};margin-bottom:14px;">Tài liệu cần ký — ${myDocs.length} loại</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        ${myDocs.map(doc => {
+          const st = signStatus[doc.id] || 'none';
+          const statusMap = {
+            none:    {lbl:'Chưa ký',    bg:'#f0f0f0', color:'#888'},
+            sent:    {lbl:'Đã gửi NV',  bg:'#e8f1fb', color:'#1565c0'},
+            partial: {lbl:'Ký 1/2',     bg:'#fff3cd', color:'#856404'},
+            done:    {lbl:'Hoàn thành', bg:'#e8f7ef', color:'#1a7a3c'},
+          };
+          const s = statusMap[st];
+          return `
+          <div style="background:${t.card};border-radius:14px;padding:18px 22px;border:1.5px solid ${t.bd};box-shadow:0 2px 10px ${t.sh};display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <div style="font-size:28px;">${doc.icon}</div>
+            <div style="flex:1;min-width:200px;">
+              <div style="font-size:15px;font-weight:700;color:${t.txt};margin-bottom:3px;">${doc.title}</div>
+              <div style="font-size:12.5px;color:${t.mut};">👥 ${doc.desc} · ${doc.signers} chữ ký</div>
+            </div>
+            <span style="padding:4px 12px;border-radius:10px;background:${s.bg};color:${s.color};font-size:12px;font-weight:700;white-space:nowrap;">${s.lbl}</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              ${doc.url ? `
+              <button onclick="kyNgay('${doc.id}','${doc.url}','${doc.title}')"
+                style="display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:9px;background:linear-gradient(135deg,#0a3d6b,#1565c0);color:white;font-size:13.5px;font-weight:700;border:none;cursor:pointer;box-shadow:0 3px 10px rgba(21,101,192,0.35);">
+                ✍️ Ký ngay
+              </button>
+              <a href="${doc.url}" download
+                style="display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:9px;background:#e8f1fb;color:#1565c0;font-size:13px;font-weight:700;text-decoration:none;border:1.5px solid #c5d8f0;">
+                ⬇️ PDF
+              </a>` : `
+              <button onclick="window.open('${signUrl}','_blank')"
+                style="display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:9px;background:linear-gradient(135deg,#0a3d6b,#1565c0);color:white;font-size:13.5px;font-weight:700;border:none;cursor:pointer;">
+                ✍️ Ký ngay
+              </button>`}
+              <select onchange="updateSignStatus('${doc.id}',this.value)"
+                style="padding:7px 12px;border-radius:9px;border:1.5px solid ${t.bd};background:${t.inp};color:${t.txt};font-family:'Be Vietnam Pro',sans-serif;font-size:12.5px;cursor:pointer;">
+                <option value="none"    ${st==='none'?'selected':''}>— Chưa ký</option>
+                <option value="sent"    ${st==='sent'?'selected':''}>📤 Đã gửi NV</option>
+                <option value="partial" ${st==='partial'?'selected':''}>⏳ Ký 1/2</option>
+                <option value="done"    ${st==='done'?'selected':''}>✅ Hoàn thành</option>
+              </select>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- Hướng dẫn nhanh -->
+      <div style="margin-top:24px;background:${t.bg};border-radius:12px;padding:18px 22px;border-left:4px solid #1565c0;">
+        <div style="font-size:13.5px;font-weight:700;color:${t.txt};margin-bottom:10px;">⚡ Quy trình 3 bước</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          ${[
+            ['1','Tải PDF về','Nhấn ⬇️ Tải PDF → lưu vào máy'],
+            ['2','Ký tại Viettel','Nhấn ✍️ Mở trang ký → upload PDF → đặt chữ ký → xác nhận qua app MySign'],
+            ['3','Gửi cho NV','Gửi file đã ký qua Zalo → NV upload lên cùng trang → ký vào ô của mình'],
+          ].map(([n,t2,d])=>`
+          <div style="flex:1;min-width:180px;background:white;border-radius:10px;padding:12px 14px;border:1px solid #d0dcf0;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#1565c0;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-bottom:7px;">${n}</div>
+            <div style="font-size:13px;font-weight:700;color:#0a3d6b;margin-bottom:4px;">${t2}</div>
+            <div style="font-size:12px;color:#6b7280;">${d}</div>
+          </div>`).join('')}
         </div>
       </div>
-      <!-- Tabs -->
+    </div>`;
+
+  return `<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+    <!-- Header + Tabs -->
+    <div style="padding:18px 32px 0;background:${t.card};border-bottom:1px solid ${t.bd};flex-shrink:0;">
+      <div style="font-size:20px;font-weight:800;color:${t.txt};margin-bottom:2px;">✍️ Ký Số Điện Tử — MySign Viettel</div>
+      <div style="font-size:13px;color:${t.mut};margin-bottom:12px;">Chữ ký số pháp lý · Chuẩn eIDAS · Miễn phí qua VNeID</div>
       <div style="display:flex;gap:4px;">
         ${tabs.map(tb=>`
           <button onclick="setState({kysoTab:'${tb.id}'})"
             style="padding:9px 18px;border:none;border-bottom:3px solid ${tab===tb.id?'#1565c0':'transparent'};
             background:transparent;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;
-            font-size:13px;font-weight:${tab===tb.id?700:500};
-            color:${tab===tb.id?'#1565c0':t.mut};margin-bottom:-1px;white-space:nowrap;transition:all .15s;">
+            font-size:13px;font-weight:${tab===tb.id?700:500};color:${tab===tb.id?'#1565c0':t.mut};
+            margin-bottom:-1px;white-space:nowrap;transition:all .15s;">
             ${tb.lbl}
           </button>`).join('')}
       </div>
     </div>
-
-    <!-- iframe content -->
-    <iframe
-      sandbox="allow-same-origin allow-scripts"
-      style="flex:1;width:100%;border:none;background:white;"
-      srcdoc="${escapeAttr(DOCS_HTML[activeTab.key]?.html || '<p>Đang tải...</p>')}">
-    </iframe>
+    ${tab==='ky-tai-lieu'
+      ? renderKyTab()
+      : `<iframe sandbox="allow-same-origin allow-scripts" style="flex:1;width:100%;border:none;background:white;"
+           srcdoc="${escapeAttr(DOCS_HTML[iframeKeys[tab]]?.html || '<p>Đang tải...</p>')}"></iframe>`
+    }
   </div>`;
 }
+
+function kyNgay(docId, fileUrl, title) {
+  // Bước 1: Tải PDF xuống
+  if(fileUrl) {
+    const a = document.createElement('a');
+    a.href = fileUrl;
+    a.download = title.replace(/[^a-zA-Z0-9]/g,'_') + '.docx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  // Bước 2: Hiện toast hướng dẫn
+  showToast('⬇️ File đang tải... Mở MySign sau 2 giây');
+  // Bước 3: Mở remotesigning.viettel.vn sau 1.5s (để file kịp tải)
+  setTimeout(() => {
+    window.open('https://remotesigning.viettel.vn', '_blank');
+    showToast('✍️ Upload file vừa tải vào MySign để ký!');
+  }, 1500);
+  // Cập nhật trạng thái
+  const newStatus = Object.assign({}, state.signStatus||{}, {[docId]: 'sent'});
+  setState({signStatus: newStatus, kysoTab: 'ky-tai-lieu'});
+}
+
+
+function updateSignStatus(docId, val) {
+  const newStatus = Object.assign({}, state.signStatus||{}, {[docId]: val});
+  setState({signStatus: newStatus});
+  const labels = {none:'—',sent:'📤 Đã gửi NV',partial:'⏳ Ký 1/2',done:'✅ Hoàn thành'};
+  showToast(labels[val] + ' — ' + docId.toUpperCase());
+}
+
 
 function renderAdmin() {
   const t = th();
