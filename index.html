@@ -310,7 +310,7 @@ function renderApp() {
           {id:'home',ic:'home',lbl:'Trang chủ',show:true},
           {id:'docs',ic:'book',lbl:'Quy chế',show:true},
           {id:'analytics',ic:'chart',lbl:'Phân tích',show:perm.viewReports},
-          ...(perm.manageUsers?[{id:'settings',label:'Cài đặt',icon:'⚙️'}]:[]),
+          ...(perm.manageUsers?[{id:'settings',ic:'settings',lbl:'Cài đặt',show:true}]:[]),
       {id:'users',ic:'users',lbl:'Nhân sự',show:perm.manageUsers},
         ].filter(n=>n.show).map(n=>{
           const active = state.page===n.id;
@@ -452,6 +452,7 @@ function renderDocViewer() {
   const g = getGroup(id);
   const gc = g?.color || '#1565c0';
   const bm = state.bookmarks.includes(id);
+  const perm = PERMS[state.user?.role] || {};
 
   
   // Edit overlay
