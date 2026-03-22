@@ -75,50 +75,50 @@ const GROUPS=[
   {id:'g12',name:'Ký Số MySign',icon:'✍️',color:'#6a1b9a',docs:['d37','d38','d39','d40']},
 ];
 const DOC_META={
-  d01:{title:'Quy Chế Lương – Thưởng & Phúc Lợi',icon:'💰',num:'01',group:'g1',minLevel:1,tags:['lương','thưởng','phụ cấp','tháng 13'],summary:'Mức lương, thưởng HQKD, phụ cấp, lịch thanh toán và chế độ phúc lợi.'},
-  d02:{title:'Quy Chế Làm Việc',icon:'📋',num:'02',group:'g1',minLevel:1,tags:['ca làm việc','tác phong','kỷ luật','8 nguyên tắc'],summary:'Ca làm việc, 8 nguyên tắc cốt lõi, tác phong và kỷ luật VicoMart.'},
-  d03:{title:'Quy Chế Tuyển Dụng & Onboarding',icon:'🎯',num:'03',group:'g2',minLevel:2,tags:['tuyển dụng','onboarding','hồ sơ','thử việc'],summary:'Quy trình tuyển dụng 6 bước, tiêu chuẩn hồ sơ và lộ trình 30 ngày.'},
-  d04:{title:'Quy Chế Đánh Giá Hiệu Suất KPI',icon:'📊',num:'04',group:'g2',minLevel:1,tags:['kpi','đánh giá','A+ đến D','trọng số'],summary:'KPI 5 nhóm tiêu chí, thang A+→D, chu kỳ đánh giá tháng/quý/năm.'},
-  d05:{title:'Quy Chế Thăng Tiến & Bổ Nhiệm',icon:'🚀',num:'05',group:'g2',minLevel:2,tags:['thăng tiến','bổ nhiệm','7 bậc','sự nghiệp'],summary:'7 bậc sự nghiệp VicoMart, điều kiện và quy trình bổ nhiệm nội bộ.'},
-  d06:{title:'Quy Trình Mở & Đóng Cửa Hàng',icon:'🔐',num:'06',group:'g3',minLevel:1,tags:['mở cửa','đóng cửa','checklist','bàn giao ca'],summary:'Checklist mở cửa 14 hạng mục, đóng cửa 16 hạng mục, bàn giao ca.'},
-  d07:{title:'Quy Trình Nhận Hàng & Kiểm Hàng NCC',icon:'📦',num:'07',group:'g3',minLevel:1,tags:['nhận hàng','kiểm hàng','HSD','FIFO','NCC'],summary:'7 bước kiểm hàng chuẩn, tiêu chuẩn HSD, từ chối hàng không đạt.'},
-  d08:{title:'Xử Lý Hàng Lỗi/Hết Hạn & Khiếu Nại KH',icon:'🔄',num:'08–09',group:'g3',minLevel:1,tags:['hàng lỗi','hết hạn','khiếu nại','đổi trả'],summary:'Tiêu hủy hàng lỗi và 5 nguyên tắc vàng xử lý khiếu nại khách hàng.'},
-  d09:{title:'Quy Định Trưng Bày & Merchandising',icon:'🛒',num:'10',group:'g3',minLevel:1,tags:['trưng bày','kệ hàng','nhãn giá','hot zone'],summary:'14 nguyên tắc trưng bày, vùng Hot/Warm/Cold, tiêu chuẩn nhãn giá.'},
-  d10:{title:'Quy Chế Quản Lý Tiền Mặt & Két',icon:'🔏',num:'11',group:'g4',minLevel:2,tags:['tiền mặt','két','kết ca 6 bước','sai lệch'],summary:'Hạn mức 3 cấp, kết ca 6 bước, quản lý két, xử lý sai lệch tiền.'},
-  d11a:{title:'Quy Định Sử Dụng & Bảo Quản Tài Sản',icon:'🏢',num:'12',group:'g4',minLevel:3,tags:['tài sản','bảo trì','kiểm tra','hư hỏng'],summary:'Danh mục tài sản, chu kỳ kiểm tra, xử lý hư hỏng và bồi thường.'},
-  d11b:{title:'Quy Trình Báo Cáo Doanh Thu',icon:'📈',num:'13',group:'g4',minLevel:3,tags:['báo cáo','doanh thu','ATV','lịch báo cáo'],summary:'Mẫu báo cáo kết ca, lịch 4 chu kỳ và 5 chỉ số cần theo dõi hằng ngày.'},
-  d12:{title:'Nội Quy Lao Động',icon:'📜',num:'14',group:'g5',minLevel:1,tags:['BLLĐ 2019','hợp đồng','kỷ luật 4 mức','sa thải'],summary:'Văn bản pháp lý bắt buộc BLLĐ 2019 — kỷ luật, khiếu nại, HĐ LĐ.'},
-  d13a:{title:'Nội Quy Phòng Cháy Chữa Cháy (PCCC)',icon:'🔥',num:'15',group:'g5',minLevel:1,tags:['PCCC','PASS','sơ tán','114','bình chữa cháy'],summary:'Quy tắc PASS, quy trình sơ tán 6 bước, trang bị PCCC bắt buộc.'},
-  d13b:{title:'An Toàn Vệ Sinh Lao Động (ATVSLĐ)',icon:'🦺',num:'16',group:'g5',minLevel:1,tags:['ATVSLĐ','bảo hộ','tai nạn LĐ','vệ sinh'],summary:'Phòng ngừa tai nạn, BHLĐ theo vị trí, xử lý tai nạn lao động.'},
-  d14:{title:'Quy Chế Đặt Hàng & Quản Lý Tồn Kho',icon:'📦',num:'17',group:'g6',minLevel:2,tags:['tồn kho','đặt hàng','min max','stockout'],summary:'Ngưỡng Min/Max, công thức tính tồn kho, lịch đặt hàng theo ngày.'},
-  d15:{title:'Quản Lý NCC & Kiểm Kê & Khuyến Mãi',icon:'🤝',num:'18–20',group:'g6',minLevel:3,tags:['NCC','kiểm kê','khuyến mãi','shrinkage'],summary:'Đánh giá NCC, quy trình kiểm kê hàng tháng, thẩm quyền duyệt KM.'},
-  d16:{title:'Quy Định An Ninh & Camera Giám Sát',icon:'📹',num:'21',group:'g7',minLevel:2,tags:['camera','CCTV 1080p','trộm cắp','an ninh'],summary:'Tiêu chuẩn CCTV, kiểm soát ra vào khu nhạy cảm, xử lý trộm cắp.'},
-  d17:{title:'Xử Lý Sự Cố & Mạng Xã Hội / Thương Hiệu',icon:'🚨',num:'22–23',group:'g7',minLevel:3,tags:['sự cố','khủng hoảng TT','mạng xã hội','thương hiệu'],summary:'Sự cố 3 cấp, timeline xử lý khủng hoảng truyền thông, quy định MXH.'},
-  d18:{title:'Quy Chế Đào Tạo & Phát Triển Nhân Sự',icon:'📚',num:'24',group:'g8',minLevel:2,tags:['đào tạo','IDP','kế hoạch năm','cam kết'],summary:'Kế hoạch đào tạo 4 quý, hỗ trợ học phí, cam kết sau đào tạo, IDP.'},
-  d19:{title:'Quy Trình Off-boarding & Chế Độ Phúc Lợi',icon:'🎁',num:'25–26',group:'g8',minLevel:1,tags:['off-boarding','BHXH 2026','phúc lợi','nghỉ phép'],summary:'Checklist bàn giao 7 bước, BHXH/BHYT/BHTN 2026, 9 loại phúc lợi.'},
+  d01:{title:'Quy Chế Lương – Thưởng & Phúc Lợi',icon:'💰',num:'01',group:'g1',minLevel:1,tags:['lương','thưởng','phụ cấp','tháng 13'],summary:'Mức lương, thưởng HQKD, phụ cấp, lịch thanh toán và chế độ phúc lợi.',updatedAt:'22/3/2026'},
+  d02:{title:'Quy Chế Làm Việc',icon:'📋',num:'02',group:'g1',minLevel:1,tags:['ca làm việc','tác phong','kỷ luật','8 nguyên tắc'],summary:'Ca làm việc, 8 nguyên tắc cốt lõi, tác phong và kỷ luật VicoMart.',updatedAt:'22/3/2026'},
+  d03:{title:'Quy Chế Tuyển Dụng & Onboarding',icon:'🎯',num:'03',group:'g2',minLevel:2,tags:['tuyển dụng','onboarding','hồ sơ','thử việc'],summary:'Quy trình tuyển dụng 6 bước, tiêu chuẩn hồ sơ và lộ trình 30 ngày.',updatedAt:'22/3/2026'},
+  d04:{title:'Quy Chế Đánh Giá Hiệu Suất KPI',icon:'📊',num:'04',group:'g2',minLevel:1,tags:['kpi','đánh giá','A+ đến D','trọng số'],summary:'KPI 5 nhóm tiêu chí, thang A+→D, chu kỳ đánh giá tháng/quý/năm.',updatedAt:'22/3/2026'},
+  d05:{title:'Quy Chế Thăng Tiến & Bổ Nhiệm',icon:'🚀',num:'05',group:'g2',minLevel:2,tags:['thăng tiến','bổ nhiệm','7 bậc','sự nghiệp'],summary:'7 bậc sự nghiệp VicoMart, điều kiện và quy trình bổ nhiệm nội bộ.',updatedAt:'22/3/2026'},
+  d06:{title:'Quy Trình Mở & Đóng Cửa Hàng',icon:'🔐',num:'06',group:'g3',minLevel:1,tags:['mở cửa','đóng cửa','checklist','bàn giao ca'],summary:'Checklist mở cửa 14 hạng mục, đóng cửa 16 hạng mục, bàn giao ca.',updatedAt:'22/3/2026'},
+  d07:{title:'Quy Trình Nhận Hàng & Kiểm Hàng NCC',icon:'📦',num:'07',group:'g3',minLevel:1,tags:['nhận hàng','kiểm hàng','HSD','FIFO','NCC'],summary:'7 bước kiểm hàng chuẩn, tiêu chuẩn HSD, từ chối hàng không đạt.',updatedAt:'22/3/2026'},
+  d08:{title:'Xử Lý Hàng Lỗi/Hết Hạn & Khiếu Nại KH',icon:'🔄',num:'08–09',group:'g3',minLevel:1,tags:['hàng lỗi','hết hạn','khiếu nại','đổi trả'],summary:'Tiêu hủy hàng lỗi và 5 nguyên tắc vàng xử lý khiếu nại khách hàng.',updatedAt:'22/3/2026'},
+  d09:{title:'Quy Định Trưng Bày & Merchandising',icon:'🛒',num:'10',group:'g3',minLevel:1,tags:['trưng bày','kệ hàng','nhãn giá','hot zone'],summary:'14 nguyên tắc trưng bày, vùng Hot/Warm/Cold, tiêu chuẩn nhãn giá.',updatedAt:'22/3/2026'},
+  d10:{title:'Quy Chế Quản Lý Tiền Mặt & Két',icon:'🔏',num:'11',group:'g4',minLevel:2,tags:['tiền mặt','két','kết ca 6 bước','sai lệch'],summary:'Hạn mức 3 cấp, kết ca 6 bước, quản lý két, xử lý sai lệch tiền.',updatedAt:'22/3/2026'},
+  d11a:{title:'Quy Định Sử Dụng & Bảo Quản Tài Sản',icon:'🏢',num:'12',group:'g4',minLevel:3,tags:['tài sản','bảo trì','kiểm tra','hư hỏng'],summary:'Danh mục tài sản, chu kỳ kiểm tra, xử lý hư hỏng và bồi thường.',updatedAt:'22/3/2026'},
+  d11b:{title:'Quy Trình Báo Cáo Doanh Thu',icon:'📈',num:'13',group:'g4',minLevel:3,tags:['báo cáo','doanh thu','ATV','lịch báo cáo'],summary:'Mẫu báo cáo kết ca, lịch 4 chu kỳ và 5 chỉ số cần theo dõi hằng ngày.',updatedAt:'22/3/2026'},
+  d12:{title:'Nội Quy Lao Động',icon:'📜',num:'14',group:'g5',minLevel:1,tags:['BLLĐ 2019','hợp đồng','kỷ luật 4 mức','sa thải'],summary:'Văn bản pháp lý bắt buộc BLLĐ 2019 — kỷ luật, khiếu nại, HĐ LĐ.',updatedAt:'22/3/2026'},
+  d13a:{title:'Nội Quy Phòng Cháy Chữa Cháy (PCCC)',icon:'🔥',num:'15',group:'g5',minLevel:1,tags:['PCCC','PASS','sơ tán','114','bình chữa cháy'],summary:'Quy tắc PASS, quy trình sơ tán 6 bước, trang bị PCCC bắt buộc.',updatedAt:'22/3/2026'},
+  d13b:{title:'An Toàn Vệ Sinh Lao Động (ATVSLĐ)',icon:'🦺',num:'16',group:'g5',minLevel:1,tags:['ATVSLĐ','bảo hộ','tai nạn LĐ','vệ sinh'],summary:'Phòng ngừa tai nạn, BHLĐ theo vị trí, xử lý tai nạn lao động.',updatedAt:'22/3/2026'},
+  d14:{title:'Quy Chế Đặt Hàng & Quản Lý Tồn Kho',icon:'📦',num:'17',group:'g6',minLevel:2,tags:['tồn kho','đặt hàng','min max','stockout'],summary:'Ngưỡng Min/Max, công thức tính tồn kho, lịch đặt hàng theo ngày.',updatedAt:'22/3/2026'},
+  d15:{title:'Quản Lý NCC & Kiểm Kê & Khuyến Mãi',icon:'🤝',num:'18–20',group:'g6',minLevel:3,tags:['NCC','kiểm kê','khuyến mãi','shrinkage'],summary:'Đánh giá NCC, quy trình kiểm kê hàng tháng, thẩm quyền duyệt KM.',updatedAt:'22/3/2026'},
+  d16:{title:'Quy Định An Ninh & Camera Giám Sát',icon:'📹',num:'21',group:'g7',minLevel:2,tags:['camera','CCTV 1080p','trộm cắp','an ninh'],summary:'Tiêu chuẩn CCTV, kiểm soát ra vào khu nhạy cảm, xử lý trộm cắp.',updatedAt:'22/3/2026'},
+  d17:{title:'Xử Lý Sự Cố & Mạng Xã Hội / Thương Hiệu',icon:'🚨',num:'22–23',group:'g7',minLevel:3,tags:['sự cố','khủng hoảng TT','mạng xã hội','thương hiệu'],summary:'Sự cố 3 cấp, timeline xử lý khủng hoảng truyền thông, quy định MXH.',updatedAt:'22/3/2026'},
+  d18:{title:'Quy Chế Đào Tạo & Phát Triển Nhân Sự',icon:'📚',num:'24',group:'g8',minLevel:2,tags:['đào tạo','IDP','kế hoạch năm','cam kết'],summary:'Kế hoạch đào tạo 4 quý, hỗ trợ học phí, cam kết sau đào tạo, IDP.',updatedAt:'22/3/2026'},
+  d19:{title:'Quy Trình Off-boarding & Chế Độ Phúc Lợi',icon:'🎁',num:'25–26',group:'g8',minLevel:1,tags:['off-boarding','BHXH 2026','phúc lợi','nghỉ phép'],summary:'Checklist bàn giao 7 bước, BHXH/BHYT/BHTN 2026, 9 loại phúc lợi.',updatedAt:'22/3/2026'},
 
-  d20:{title:'KPI-HO-01: Dashboard KPI Hội Sở – Toàn Chuỗi',icon:'📊',num:'27',group:'g9',minLevel:3,tags:['KPI','hội sở','toàn chuỗi'],summary:'Dashboard KPI toàn chuỗi.'},
-  d21:{title:'KPI-REGION-01: Dashboard KPI Vùng',icon:'🗺️',num:'28',group:'g9',minLevel:2,tags:['KPI','vùng'],summary:'Dashboard KPI vùng.'},
-  d22:{title:'KPI-STORE-01: Dashboard KPI Cửa Hàng',icon:'🏪',num:'29',group:'g9',minLevel:1,tags:['KPI','cửa hàng'],summary:'Dashboard KPI cửa hàng.'},
-  d23:{title:'POL-AUDIT-01: Chính Sách Kiểm Toán Nội Bộ',icon:'🔍',num:'30',group:'g10',minLevel:3,tags:['audit','kiểm toán'],summary:'Chính sách kiểm toán nội bộ.'},
-  d24:{title:'POL-FIN-01: Chính Sách Tài Chính Toàn Chuỗi',icon:'💳',num:'31',group:'g10',minLevel:3,tags:['tài chính'],summary:'Chính sách tài chính toàn chuỗi.'},
-  d25:{title:'SOP-AUDIT-01: Quy Trình Audit Nội Bộ',icon:'✅',num:'32',group:'g11',minLevel:3,tags:['audit'],summary:'Quy trình Audit nội bộ.'},
-  d26:{title:'SOP-BANK-01: Quy Trình Nộp Tiền Ngân Hàng',icon:'🏦',num:'33',group:'g11',minLevel:2,tags:['ngân hàng'],summary:'Quy trình nộp tiền ngân hàng.'},
-  d27:{title:'SOP-BH-01: Quy Trình Bán Hàng & Tiếp Khách',icon:'🛍️',num:'34',group:'g11',minLevel:1,tags:['bán hàng'],summary:'Quy trình bán hàng và tiếp khách.'},
-  d28:{title:'SOP-CS-01: Quy Trình Thu Ngân 8 Bước',icon:'💰',num:'35',group:'g11',minLevel:1,tags:['thu ngân'],summary:'Quy trình thu ngân 8 bước.'},
-  d29:{title:'SOP-DC-01: Quy Trình Điều Chuyển Hàng Giữa Chi Nhánh',icon:'🔄',num:'36',group:'g11',minLevel:2,tags:['điều chuyển'],summary:'Quy trình điều chuyển hàng.'},
-  d30:{title:'SOP-EXP-01: Quy Trình Kiểm Soát Chi Phí Vận Hành',icon:'📉',num:'37',group:'g11',minLevel:3,tags:['chi phí'],summary:'Quy trình kiểm soát chi phí.'},
-  d31:{title:'SOP-FIFO-01: Quy Trình FIFO Toàn Diện',icon:'📦',num:'38',group:'g11',minLevel:1,tags:['FIFO'],summary:'Quy trình FIFO toàn diện.'},
-  d32:{title:'SOP-KHO-01: Quy Trình Quản Lý Kho Hàng',icon:'🏭',num:'39',group:'g11',minLevel:2,tags:['kho'],summary:'Quy trình quản lý kho hàng.'},
-  d33:{title:'SOP-PRICE-01: Quy Trình Quản Lý Giá',icon:'🏷️',num:'40',group:'g11',minLevel:2,tags:['giá'],summary:'Quy trình quản lý giá.'},
-  d34:{title:'SOP-PROMO-01: Quy Trình Triển Khai Khuyến Mãi',icon:'🎁',num:'41',group:'g11',minLevel:2,tags:['khuyến mãi'],summary:'Quy trình triển khai khuyến mãi.'},
-  d35:{title:'SOP-QA-01: Checklist QA Cửa Hàng 50 Điểm',icon:'📋',num:'42',group:'g11',minLevel:2,tags:['QA'],summary:'Checklist QA cửa hàng 50 điểm.'},
-  d36:{title:'SOP-RECON-01: Quy Trình Đối Soát Tài Chính 3 Chiều',icon:'⚖️',num:'43',group:'g11',minLevel:3,tags:['đối soát'],summary:'Quy trình đối soát tài chính 3 chiều.'},
+  d20:{title:'KPI-HO-01: Dashboard KPI Hội Sở – Toàn Chuỗi',icon:'📊',num:'27',group:'g9',minLevel:3,tags:['KPI','hội sở','toàn chuỗi'],summary:'Dashboard KPI toàn chuỗi.',updatedAt:'22/3/2026'},
+  d21:{title:'KPI-REGION-01: Dashboard KPI Vùng',icon:'🗺️',num:'28',group:'g9',minLevel:2,tags:['KPI','vùng'],summary:'Dashboard KPI vùng.',updatedAt:'22/3/2026'},
+  d22:{title:'KPI-STORE-01: Dashboard KPI Cửa Hàng',icon:'🏪',num:'29',group:'g9',minLevel:1,tags:['KPI','cửa hàng'],summary:'Dashboard KPI cửa hàng.',updatedAt:'22/3/2026'},
+  d23:{title:'POL-AUDIT-01: Chính Sách Kiểm Toán Nội Bộ',icon:'🔍',num:'30',group:'g10',minLevel:3,tags:['audit','kiểm toán'],summary:'Chính sách kiểm toán nội bộ.',updatedAt:'22/3/2026'},
+  d24:{title:'POL-FIN-01: Chính Sách Tài Chính Toàn Chuỗi',icon:'💳',num:'31',group:'g10',minLevel:3,tags:['tài chính'],summary:'Chính sách tài chính toàn chuỗi.',updatedAt:'22/3/2026'},
+  d25:{title:'SOP-AUDIT-01: Quy Trình Audit Nội Bộ',icon:'✅',num:'32',group:'g11',minLevel:3,tags:['audit'],summary:'Quy trình Audit nội bộ.',updatedAt:'22/3/2026'},
+  d26:{title:'SOP-BANK-01: Quy Trình Nộp Tiền Ngân Hàng',icon:'🏦',num:'33',group:'g11',minLevel:2,tags:['ngân hàng'],summary:'Quy trình nộp tiền ngân hàng.',updatedAt:'22/3/2026'},
+  d27:{title:'SOP-BH-01: Quy Trình Bán Hàng & Tiếp Khách',icon:'🛍️',num:'34',group:'g11',minLevel:1,tags:['bán hàng'],summary:'Quy trình bán hàng và tiếp khách.',updatedAt:'22/3/2026'},
+  d28:{title:'SOP-CS-01: Quy Trình Thu Ngân 8 Bước',icon:'💰',num:'35',group:'g11',minLevel:1,tags:['thu ngân'],summary:'Quy trình thu ngân 8 bước.',updatedAt:'22/3/2026'},
+  d29:{title:'SOP-DC-01: Quy Trình Điều Chuyển Hàng Giữa Chi Nhánh',icon:'🔄',num:'36',group:'g11',minLevel:2,tags:['điều chuyển'],summary:'Quy trình điều chuyển hàng.',updatedAt:'22/3/2026'},
+  d30:{title:'SOP-EXP-01: Quy Trình Kiểm Soát Chi Phí Vận Hành',icon:'📉',num:'37',group:'g11',minLevel:3,tags:['chi phí'],summary:'Quy trình kiểm soát chi phí.',updatedAt:'22/3/2026'},
+  d31:{title:'SOP-FIFO-01: Quy Trình FIFO Toàn Diện',icon:'📦',num:'38',group:'g11',minLevel:1,tags:['FIFO'],summary:'Quy trình FIFO toàn diện.',updatedAt:'22/3/2026'},
+  d32:{title:'SOP-KHO-01: Quy Trình Quản Lý Kho Hàng',icon:'🏭',num:'39',group:'g11',minLevel:2,tags:['kho'],summary:'Quy trình quản lý kho hàng.',updatedAt:'22/3/2026'},
+  d33:{title:'SOP-PRICE-01: Quy Trình Quản Lý Giá',icon:'🏷️',num:'40',group:'g11',minLevel:2,tags:['giá'],summary:'Quy trình quản lý giá.',updatedAt:'22/3/2026'},
+  d34:{title:'SOP-PROMO-01: Quy Trình Triển Khai Khuyến Mãi',icon:'🎁',num:'41',group:'g11',minLevel:2,tags:['khuyến mãi'],summary:'Quy trình triển khai khuyến mãi.',updatedAt:'22/3/2026'},
+  d35:{title:'SOP-QA-01: Checklist QA Cửa Hàng 50 Điểm',icon:'📋',num:'42',group:'g11',minLevel:2,tags:['QA'],summary:'Checklist QA cửa hàng 50 điểm.',updatedAt:'22/3/2026'},
+  d36:{title:'SOP-RECON-01: Quy Trình Đối Soát Tài Chính 3 Chiều',icon:'⚖️',num:'43',group:'g11',minLevel:3,tags:['đối soát'],summary:'Quy trình đối soát tài chính 3 chiều.',updatedAt:'22/3/2026'},
 
-  d37:{title:'Hướng Dẫn Ký Số MySign',icon:'✍️',num:'44',group:'g12',minLevel:1,tags:['ký số','MySign','hướng dẫn','HĐLĐ'],summary:'Hướng dẫn ký hợp đồng lao động điện tử qua ứng dụng MySign.'},
-  d38:{title:'Quy Trình Ký Số Điện Tử',icon:'🔄',num:'45',group:'g12',minLevel:2,tags:['ký số','quy trình','workflow','HĐLĐ'],summary:'Quy trình triển khai ký số điện tử toàn chuỗi VicoMart.'},
-  d39:{title:'Checklist Triển Khai Ký Số',icon:'✅',num:'46',group:'g12',minLevel:3,tags:['ký số','checklist','triển khai','BGĐ'],summary:'Checklist dành cho BGĐ và quản lý khi triển khai ký số.'},
-  d40:{title:'Tracker Ký Số Nhân Viên',icon:'📊',num:'47',group:'g12',minLevel:2,tags:['ký số','tracker','theo dõi','nhân viên'],summary:'Bảng theo dõi tiến độ ký số hợp đồng lao động toàn chuỗi.'},
+  d37:{title:'Hướng Dẫn Ký Số MySign',icon:'✍️',num:'44',group:'g12',minLevel:1,tags:['ký số','MySign','hướng dẫn','HĐLĐ'],summary:'Hướng dẫn ký hợp đồng lao động điện tử qua ứng dụng MySign.',updatedAt:'22/3/2026'},
+  d38:{title:'Quy Trình Ký Số Điện Tử',icon:'🔄',num:'45',group:'g12',minLevel:2,tags:['ký số','quy trình','workflow','HĐLĐ'],summary:'Quy trình triển khai ký số điện tử toàn chuỗi VicoMart.',updatedAt:'22/3/2026'},
+  d39:{title:'Checklist Triển Khai Ký Số',icon:'✅',num:'46',group:'g12',minLevel:3,tags:['ký số','checklist','triển khai','BGĐ'],summary:'Checklist dành cho BGĐ và quản lý khi triển khai ký số.',updatedAt:'22/3/2026'},
+  d40:{title:'Tracker Ký Số Nhân Viên',icon:'📊',num:'47',group:'g12',minLevel:2,tags:['ký số','tracker','theo dõi','nhân viên'],summary:'Bảng theo dõi tiến độ ký số hợp đồng lao động toàn chuỗi.',updatedAt:'22/3/2026'},
 };
 const ALL_DOC_KEYS=['d01','d02','d03','d04','d05','d06','d07','d08','d09','d10','d11a','d11b','d12','d13a','d13b','d14','d15','d16','d17','d18','d19','d20','d21','d22','d23','d24','d25','d26','d27','d28','d29','d30','d31','d32','d33','d34','d35','d36','d37','d38','d39','d40'];
 
@@ -167,6 +167,11 @@ let state = {
   loginShowPass: false,
   loginErr: '',
   loginLoading: false,
+  editingDoc: null,
+  editDocHtml: '',
+  userMgmtMode: 'list',
+  userEditId: null,
+  userAddForm: {username:'',name:'',pw:'',role:'NV',branch:'PHB',dept:''},
 };
 
 function setState(updates) {
@@ -305,7 +310,8 @@ function renderApp() {
           {id:'home',ic:'home',lbl:'Trang chủ',show:true},
           {id:'docs',ic:'book',lbl:'Quy chế',show:true},
           {id:'analytics',ic:'chart',lbl:'Phân tích',show:perm.viewReports},
-          {id:'users',ic:'users',lbl:'Nhân sự',show:perm.manageUsers},
+          ...(perm.manageUsers?[{id:'settings',label:'Cài đặt',icon:'⚙️'}]:[]),
+      {id:'users',ic:'users',lbl:'Nhân sự',show:perm.manageUsers},
         ].filter(n=>n.show).map(n=>{
           const active = state.page===n.id;
           return `<button onclick="navTo('${n.id}')" style="display:flex;align-items:center;gap:10px;padding:10px ${state.sideCollapsed?'0':'12px'};border-radius:10px;border:none;cursor:pointer;background:${active?'rgba(255,255,255,0.18)':'transparent'};color:${active?'white':'rgba(255,255,255,0.65)'};font-family:'Be Vietnam Pro',sans-serif;font-weight:${active?700:500};font-size:13.5px;transition:all .15s;text-align:left;width:100%;justify-content:${state.sideCollapsed?'center':'flex-start'};"
@@ -435,6 +441,7 @@ function renderPageContent() {
   if(state.page==='docs') return renderDocs();
   if(state.page==='analytics') return renderAnalytics();
   if(state.page==='users') return renderUsers();
+  if(state.page==='settings') return renderSettings();
   return renderHome();
 }
 
@@ -446,7 +453,24 @@ function renderDocViewer() {
   const gc = g?.color || '#1565c0';
   const bm = state.bookmarks.includes(id);
 
-  return `<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+  
+  // Edit overlay
+  if(state.editingDoc === id) {
+    return `<div style="flex:1;display:flex;flex-direction:column;padding:20px;gap:12px;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="font-weight:800;font-size:16px;color:${t.txt};">✏️ Chỉnh sửa: ${DOC_META[id]?.title||id}</div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button onclick="DOCS_HTML['${id}'].html=state.editDocHtml;DOC_META['${id}'].updatedAt=new Date().toLocaleString('vi-VN');setState({editingDoc:null,editDocHtml:''});"
+            style="padding:8px 16px;background:linear-gradient(135deg,#1b5e20,#43a047);color:white;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;">💾 Lưu</button>
+          <button onclick="setState({editingDoc:null,editDocHtml:''})"
+            style="padding:8px 16px;background:#e0e0e0;color:#333;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;">✕ Huỷ</button>
+        </div>
+      </div>
+      <textarea oninput="setState({editDocHtml:this.value})"
+        style="flex:1;width:100%;border:1.5px solid ${t.bd};border-radius:10px;padding:14px;font-size:12px;font-family:'JetBrains Mono',monospace;resize:none;outline:none;background:${t.card};color:${t.txt};">${(state.editDocHtml||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+    </div>`;
+  }
+return `<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
     <!-- Doc toolbar -->
     <div style="background:${t.card};border-bottom:1px solid ${t.bd};padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px ${t.sh};">
       <button onclick="setState({selDoc:null})" style="display:flex;align-items:center;gap:6px;background:none;border:1px solid ${t.bd};border-radius:8px;padding:7px 13px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;font-size:13px;color:${t.sub};">
@@ -480,7 +504,12 @@ function renderDocViewer() {
       <button onclick="toggleFullscreen()" id="fsBtn" style="width:36px;height:36px;border-radius:9px;background:${t.inp};border:1px solid ${t.bd};cursor:pointer;display:flex;align-items:center;justify-content:center;" title="Mở rộng">
         ${icon('expand',16,t.mut)}
       </button>
-    </div>
+    
+      ${perm.editDocs ? `
+        <button onclick="setState({editingDoc:'${id}',editDocHtml:DOCS_HTML['${id}']?.html||''})"
+          style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;background:linear-gradient(135deg,#e65100,#ff9800);color:white;border:none;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;font-size:12.5px;">✏️ Chỉnh sửa</button>
+      ` : ''}
+      <span style="font-size:11px;color:${t.mut};margin-left:auto;">Cập nhật: ${DOC_META[id]?.updatedAt||''}</span></div>
     <!-- iframe -->
     <iframe id="docFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
       style="flex:1;width:100%;border:none;background:white;"
@@ -745,38 +774,154 @@ function renderAnalytics() {
 ══════════════════════════════════════ */
 function renderUsers() {
   const t = th();
+  const user = state.user;
+  const perm = PERMS[user.role];
+  const mode = state.userMgmtMode || 'list';
+  const addF = state.userAddForm || {username:'',name:'',pw:'',role:'NV',branch:'PHB',dept:''};
+
+  const branchOpts = Object.entries(BRANCHES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  const roleOpts   = Object.entries(ROLES).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join('');
+
+  const addForm = perm.manageUsers ? `
+    <div style="background:${t.card};border-radius:14px;padding:22px 24px;border:1.5px solid #1565c0;margin-bottom:20px;box-shadow:0 4px 20px ${t.sh};">
+      <div style="font-weight:800;font-size:15px;color:${t.txt};margin-bottom:16px;">➕ Thêm tài khoản mới</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:4px;">USERNAME</label>
+          <input type="text" value="${addF.username}" oninput="setState({userAddForm:{...state.userAddForm,username:this.value}})"
+            style="width:100%;padding:9px 12px;border:1.5px solid ${t.bd};border-radius:8px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;" placeholder="vd: pb_ql2"/></div>
+        <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:4px;">TÊN HIỂN THỊ</label>
+          <input type="text" value="${addF.name}" oninput="setState({userAddForm:{...state.userAddForm,name:this.value}})"
+            style="width:100%;padding:9px 12px;border:1.5px solid ${t.bd};border-radius:8px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;" placeholder="Nguyễn Văn A"/></div>
+        <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:4px;">MẬT KHẨU</label>
+          <input type="password" value="${addF.pw}" oninput="setState({userAddForm:{...state.userAddForm,pw:this.value}})"
+            style="width:100%;padding:9px 12px;border:1.5px solid ${t.bd};border-radius:8px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;" placeholder="Mật khẩu"/></div>
+        <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:4px;">PHÒNG BAN</label>
+          <input type="text" value="${addF.dept}" oninput="setState({userAddForm:{...state.userAddForm,dept:this.value}})"
+            style="width:100%;padding:9px 12px;border:1.5px solid ${t.bd};border-radius:8px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;" placeholder="Nhân viên Phú Bài"/></div>
+        <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:4px;">QUYỀN</label>
+          <select onchange="setState({userAddForm:{...state.userAddForm,role:this.value}})"
+            style="width:100%;padding:9px 12px;border:1.5px solid ${t.bd};border-radius:8px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;">
+            ${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${addF.role===k?'selected':''}>${v.name}</option>`).join('')}
+          </select></div>
+        <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:4px;">CHI NHÁNH</label>
+          <select onchange="setState({userAddForm:{...state.userAddForm,branch:this.value}})"
+            style="width:100%;padding:9px 12px;border:1.5px solid ${t.bd};border-radius:8px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;">
+            ${Object.entries(BRANCHES).map(([k,v])=>`<option value="${k}" ${addF.branch===k?'selected':''}>${v}</option>`).join('')}
+          </select></div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;">
+        <button onclick="(function(){
+          const f=state.userAddForm;
+          if(!f.username||!f.name||!f.pw){alert('Vui lòng điền đầy đủ thông tin');return;}
+          if(USERS.find(x=>x.username===f.username)){alert('Username đã tồn tại');return;}
+          const newU={id:'U'+(USERS.length+1).toString().padStart(2,'0'),username:f.username,name:f.name,hash:sha256hex(f.pw),role:f.role,branch:f.branch,dept:f.dept,avatar:ROLES[f.role]?.icon||'👤'};
+          USERS.push(newU);
+          setState({userAddForm:{username:'',name:'',pw:'',role:'NV',branch:'PHB',dept:''}});
+        })()"
+          style="padding:9px 20px;background:linear-gradient(135deg,#1565c0,#42a5f5);color:white;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;">✓ Tạo tài khoản</button>
+      </div>
+    </div>
+  ` : '';
+
+  const editId = state.userEditId;
+
+  const userCards = USERS.map((u,i) => {
+    const r = ROLES[u.role];
+    const isEditing = editId === u.id;
+    if(isEditing) return `
+      <div style="background:${t.card};border-radius:14px;padding:18px 20px;border:1.5px solid #1565c0;box-shadow:0 4px 16px ${t.sh};">
+        <div style="font-weight:800;font-size:14px;color:${t.txt};margin-bottom:14px;">✏️ Chỉnh sửa: ${u.username}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:3px;">TÊN</label>
+            <input type="text" id="edit-name-${u.id}" value="${u.name}"
+              style="width:100%;padding:8px 10px;border:1.5px solid ${t.bd};border-radius:7px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;"/></div>
+          <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:3px;">PHÒNG BAN</label>
+            <input type="text" id="edit-dept-${u.id}" value="${u.dept}"
+              style="width:100%;padding:8px 10px;border:1.5px solid ${t.bd};border-radius:7px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;"/></div>
+          <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:3px;">QUYỀN</label>
+            <select id="edit-role-${u.id}"
+              style="width:100%;padding:8px 10px;border:1.5px solid ${t.bd};border-radius:7px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;">
+              ${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${u.role===k?'selected':''}>${v.name}</option>`).join('')}
+            </select></div>
+          <div><label style="font-size:11px;font-weight:700;color:${t.mut};display:block;margin-bottom:3px;">CHI NHÁNH</label>
+            <select id="edit-branch-${u.id}"
+              style="width:100%;padding:8px 10px;border:1.5px solid ${t.bd};border-radius:7px;font-family:inherit;font-size:13px;background:${t.bg};color:${t.txt};outline:none;">
+              ${Object.entries(BRANCHES).map(([k,v])=>`<option value="${k}" ${u.branch===k?'selected':''}>${v}</option>`).join('')}
+            </select></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button onclick="(function(){
+            const uid='${u.id}';
+            const idx=USERS.findIndex(x=>x.id===uid);
+            if(idx===-1)return;
+            USERS[idx].name=document.getElementById('edit-name-'+uid).value;
+            USERS[idx].dept=document.getElementById('edit-dept-'+uid).value;
+            USERS[idx].role=document.getElementById('edit-role-'+uid).value;
+            USERS[idx].branch=document.getElementById('edit-branch-'+uid).value;
+            USERS[idx].avatar=ROLES[USERS[idx].role]?.icon||'👤';
+            setState({userEditId:null});
+          })()"
+            style="padding:7px 16px;background:linear-gradient(135deg,#1b5e20,#43a047);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit;">💾 Lưu</button>
+          <button onclick="(function(){
+            const uid='${u.id}';
+            const np=prompt('Nhập mật khẩu mới cho ${u.username}:');
+            if(!np)return;
+            const idx=USERS.findIndex(x=>x.id===uid);
+            if(idx!==-1){USERS[idx].hash=sha256hex(np);alert('Đã đổi mật khẩu!');}
+          })()"
+            style="padding:7px 16px;background:linear-gradient(135deg,#4527a0,#7e57c2);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit;">🔑 Đổi mật khẩu</button>
+          <button onclick="setState({userEditId:null})"
+            style="padding:7px 16px;background:#e0e0e0;color:#333;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit;">✕ Huỷ</button>
+          ${perm.manageUsers && u.id !== state.user.id ? `<button onclick="(function(){
+            if(!confirm('Xoá tài khoản ${u.username}?'))return;
+            const idx=USERS.findIndex(x=>x.id==='${u.id}');
+            if(idx!==-1){USERS.splice(idx,1);setState({userEditId:null});}
+          })()"
+            style="padding:7px 16px;background:linear-gradient(135deg,#b71c1c,#ef5350);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit;margin-left:auto;">🗑️ Xoá</button>` : ''}
+        </div>
+      </div>`;
+
+    return `<div style="background:${t.card};border-radius:14px;padding:18px 20px;border:1px solid ${t.bd};box-shadow:0 2px 12px ${t.sh};">
+      <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:10px;">
+        <div style="width:46px;height:46px;border-radius:12px;background:${r.color}18;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">${u.avatar}</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:800;color:${t.txt};">${u.name}</div>
+          <div style="font-size:12px;color:${t.mut};margin-top:2px;">${u.dept} · @${u.username}</div>
+          <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+            <span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px;background:${r.color}18;color:${r.color};">${r.icon} ${r.name}</span>
+            <span style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:6px;background:${t.bd};color:${t.mut};">${BRANCHES[u.branch]||u.branch}</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;border-top:1px solid ${t.bd};padding-top:10px;">
+        <button onclick="setState({userEditId:'${u.id}'})"
+          style="padding:6px 14px;background:${t.bd};color:${t.txt};border:none;border-radius:7px;font-weight:600;cursor:pointer;font-size:12px;font-family:inherit;">✏️ Sửa</button>
+        <button onclick="(function(){
+          const np=prompt('Nhập mật khẩu mới cho ${u.username}:');
+          if(!np)return;
+          const idx=USERS.findIndex(x=>x.id==='${u.id}');
+          if(idx!==-1){USERS[idx].hash=sha256hex(np);alert('Đã đổi mật khẩu!');}
+        })()"
+          style="padding:6px 14px;background:${t.bd};color:${t.txt};border:none;border-radius:7px;font-weight:600;cursor:pointer;font-size:12px;font-family:inherit;">🔑 Đổi MK</button>
+        ${perm.manageUsers && u.id !== state.user?.id ? `<button onclick="(function(){
+          if(!confirm('Xoá tài khoản ${u.username}?'))return;
+          const idx=USERS.findIndex(x=>x.id==='${u.id}');
+          if(idx!==-1){USERS.splice(idx,1);setState({userEditId:null});}
+        })()"
+          style="padding:6px 14px;background:#ffebee;color:#c62828;border:none;border-radius:7px;font-weight:600;cursor:pointer;font-size:12px;font-family:inherit;">🗑️</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
   return `<div style="flex:1;overflow-y:auto;padding:28px 32px;">
-    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:${t.txt};margin-bottom:4px;">👥 Quản Lý Nhân Sự</div>
-    <div style="font-size:14px;color:${t.mut};margin-bottom:24px;">${USERS.length} nhân viên trong hệ thống · 3 chi nhánh</div>
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:${t.txt};margin-bottom:4px;">👥 Quản Lý Tài Khoản</div>
+    <div style="font-size:14px;color:${t.mut};margin-bottom:24px;">${USERS.length} tài khoản · 3 chi nhánh</div>
+    ${addForm}
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;">
-      ${USERS.map((u,i)=>{
-        const r = ROLES[u.role];
-        const p = PERMS[u.role];
-        return `<div style="background:${t.card};border-radius:14px;padding:18px 20px;border:1px solid ${t.bd};box-shadow:0 2px 12px ${t.sh};" class="fu" style="animation-delay:${i*.05}s">
-          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;">
-            <div style="width:48px;height:48px;border-radius:14px;background:${r.color}15;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">${u.avatar}</div>
-            <div style="flex:1;">
-              <div style="font-size:14.5px;font-weight:800;color:${t.txt};margin-bottom:3px;">${u.name}</div>
-              <div style="font-size:12.5px;color:${t.mut};margin-bottom:7px;">${u.dept} · ${u.phone}</div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                <span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px;background:${r.color}18;color:${r.color};border:1px solid ${r.color}28;">${r.icon} ${r.short}</span>
-                <span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px;background:#e3f2fd;color:#1565c0;border:1px solid #bbdefb;">${BRANCHES[u.branch]}</span>
-              </div>
-            </div>
-          </div>
-          <!-- Permissions -->
-          <div style="padding-top:11px;border-top:1px solid ${t.bd};display:flex;gap:5px;flex-wrap:wrap;">
-            ${Object.entries(p).map(([k,v])=>`<span style="font-size:10px;padding:2px 7px;border-radius:5px;background:${v?'#e0f2f1':'#f5f5f5'};color:${v?'#00897b':'#9e9e9e'};font-weight:600;">${v?'✓':'-'} ${k.replace(/([A-Z])/g,' $1').trim()}</span>`).join('')}
-          </div>
-        </div>`;
-      }).join('')}
+      ${userCards}
     </div>
   </div>`;
 }
-
-/* ══════════════════════════════════════
-   NOTIFICATION PANEL
-══════════════════════════════════════ */
 function renderNotifPanel() {
   const t = th();
   const notifs = [
@@ -897,6 +1042,62 @@ async function loadUserData(user) {
     }
   } catch(e) {}
 }
+// Load saved permissions
+try { const sp=localStorage.getItem('vico_perms'); if(sp){const p=JSON.parse(sp);Object.keys(p).forEach(k=>{if(PERMS[k])Object.assign(PERMS[k],p[k]);});} } catch(e){}
+
+function renderSettings() {
+  const t = th();
+  const user = state.user;
+  const perm = PERMS[user.role];
+  if(!perm.manageUsers) return `<div style="flex:1;display:flex;align-items:center;justify-content:center;color:${t.mut};font-size:15px;">⛔ Không có quyền truy cập</div>`;
+
+  const permKeys = ['editDocs','sendNotif','manageUsers','viewSalary','viewReports','exportData'];
+  const permLabels = {editDocs:'Sửa tài liệu',sendNotif:'Gửi thông báo',manageUsers:'QL tài khoản',viewSalary:'Xem lương',viewReports:'Xem báo cáo',exportData:'Xuất dữ liệu'};
+
+  const rows = Object.entries(ROLES).map(([rk,rv]) => {
+    const cells = permKeys.map(pk => {
+      const checked = PERMS[rk][pk];
+      return `<td style="text-align:center;padding:10px 8px;">
+        <input type="checkbox" ${checked?'checked':''} onchange="PERMS['${rk}']['${pk}']=this.checked;render();"
+          style="width:16px;height:16px;cursor:pointer;accent-color:${rv.color};"/>
+      </td>`;
+    }).join('');
+    return `<tr style="border-bottom:1px solid ${t.bd};">
+      <td style="padding:12px 16px;font-weight:700;color:${t.txt};white-space:nowrap;">
+        <span style="font-size:16px;">${rv.icon}</span> ${rv.name}
+      </td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  return `<div style="flex:1;overflow-y:auto;padding:28px 32px;">
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:${t.txt};margin-bottom:4px;">⚙️ Cấu Hình Hệ Thống</div>
+    <div style="font-size:14px;color:${t.mut};margin-bottom:24px;">Phân quyền theo vai trò · Thay đổi có hiệu lực ngay</div>
+
+    <div style="background:${t.card};border-radius:16px;padding:24px;border:1px solid ${t.bd};box-shadow:0 4px 20px ${t.sh};margin-bottom:20px;">
+      <div style="font-size:15px;font-weight:800;color:${t.txt};margin-bottom:16px;">🔐 Phân quyền theo vai trò</div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="background:${t.bd};">
+              <th style="padding:10px 16px;text-align:left;font-weight:700;color:${t.txt};border-radius:8px 0 0 8px;">Vai trò</th>
+              ${permKeys.map(pk=>`<th style="padding:10px 8px;text-align:center;font-weight:700;color:${t.txt};font-size:11.5px;">${permLabels[pk]}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;align-items:center;">
+        <button onclick="localStorage.setItem('vico_perms',JSON.stringify(PERMS));alert('✅ Đã lưu cấu hình quyền!');"
+          style="padding:9px 20px;background:linear-gradient(135deg,#1565c0,#42a5f5);color:white;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;">💾 Lưu cấu hình</button>
+        <button onclick="localStorage.removeItem('vico_perms');location.reload();"
+          style="padding:9px 20px;background:#e0e0e0;color:#333;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;">↺ Khôi phục mặc định</button>
+        <span style="font-size:12px;color:${t.mut};">* Thay đổi lưu trong trình duyệt này</span>
+      </div>
+    </div>
+  </div>`;
+}
+
 function render() {
   const app = document.getElementById('app');
   if(!state.user) {
