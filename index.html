@@ -174,6 +174,27 @@ let state = {
   userAddForm: {username:'',name:'',pw:'',role:'NV',branch:'PHB',dept:''},
 };
 
+function injectEditMode(html) {
+  // Make body contenteditable for direct text editing
+  const editScript = `<style>
+    body { outline: none; }
+    [contenteditable]:focus { outline: 2px solid #1565c0; outline-offset: 2px; border-radius: 4px; }
+    p:empty:before { content: '\00a0'; }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Make all text nodes editable
+      document.querySelectorAll('p,h1,h2,h3,h4,h5,li,td,th,span,div').forEach(function(el) {
+        if(el.children.length === 0 || el.tagName === 'TD' || el.tagName === 'TH') {
+          el.contentEditable = 'true';
+          el.style.cursor = 'text';
+        }
+      });
+    });
+  <\/script>`;
+  return html.replace('</head>', editScript + '</head>');
+}
+
 function setState(updates) {
   Object.assign(state, updates);
   render();
@@ -268,7 +289,7 @@ function renderLogin() {
     + '</div>'
     + '<div style="margin-bottom:18px;">'
     + '<label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;">TÊN ĐĂNG NHẬP</label>'
-    + '<input id="inp-user" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập"'
+    + '<input id="inp-user" type="text" autocomplete="off" onpaste="return false" placeholder="Nhập tên đăng nhập"'
     + ' style="width:100%;padding:12px 14px;border:1.5px solid ' + bc + ';border-radius:10px;font-size:14px;font-family:inherit;outline:none;"'
     + ' value="' + u + '" oninput="setState({loginUser:this.value,loginErr:\'\'})"'
     + ' onkeydown="if(event.key===\'Enter\')document.getElementById(\'inp-pass\').focus()"/>'
@@ -276,7 +297,7 @@ function renderLogin() {
     + '<div style="margin-bottom:10px;">'
     + '<label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:7px;">MẬT KHẨU</label>'
     + '<div style="position:relative;">'
-    + '<input id="inp-pass" type="' + (sp?'text':'password') + '" autocomplete="current-password" placeholder="Nhập mật khẩu"'
+    + '<input id="inp-pass" type="' + (sp?'text':'password') + '" autocomplete="new-password" onpaste="return false" placeholder="Nhập mật khẩu"'
     + ' style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid ' + bc + ';border-radius:10px;font-size:14px;font-family:inherit;outline:none;"'
     + ' value="' + p + '" oninput="setState({loginPass:this.value,loginErr:\'\'})"'
     + ' onkeydown="if(event.key===\'Enter\')doLogin()"/>'
@@ -457,84 +478,34 @@ function renderDocViewer() {
   
   // Edit overlay
   if(state.editingDoc === id) {
-    return `<div style="flex:1;display:flex;flex-direction:column;padding:20px;gap:12px;overflow:hidden;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="font-weight:800;font-size:16px;color:${t.txt};">✏️ Chỉnh sửa: ${DOC_META[id]?.title||id}</div>
+    const docHtml = DOCS_HTML[id]?.html || '';
+    return `<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+      <!-- Edit toolbar -->
+      <div style="background:${t.card};border-bottom:1px solid ${t.bd};padding:10px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <div style="font-weight:800;font-size:14px;color:${t.txt};">✏️ Chỉnh sửa nội dung: ${DOC_META[id]?.title||id}</div>
         <div style="margin-left:auto;display:flex;gap:8px;">
-          <button onclick="DOCS_HTML['${id}'].html=state.editDocHtml;DOC_META['${id}'].updatedAt=new Date().toLocaleString('vi-VN');setState({editingDoc:null,editDocHtml:''});"
-            style="padding:8px 16px;background:linear-gradient(135deg,#1b5e20,#43a047);color:white;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;">💾 Lưu</button>
+          <button onclick="(function(){
+            const frame=document.getElementById('editFrame');
+            const newHtml=frame.contentDocument.documentElement.outerHTML;
+            DOCS_HTML['${id}'].html=newHtml;
+            DOC_META['${id}'].updatedAt=new Date().toLocaleString('vi-VN');
+            setState({editingDoc:null,editDocHtml:''});
+          })()"
+            style="padding:8px 18px;background:linear-gradient(135deg,#1b5e20,#43a047);color:white;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;">💾 Lưu</button>
           <button onclick="setState({editingDoc:null,editDocHtml:''})"
-            style="padding:8px 16px;background:#e0e0e0;color:#333;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;">✕ Huỷ</button>
+            style="padding:8px 18px;background:#e0e0e0;color:#333;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;">✕ Huỷ</button>
         </div>
       </div>
-      <textarea oninput="setState({editDocHtml:this.value})"
-        style="flex:1;width:100%;border:1.5px solid ${t.bd};border-radius:10px;padding:14px;font-size:12px;font-family:'JetBrains Mono',monospace;resize:none;outline:none;background:${t.card};color:${t.txt};">${(state.editDocHtml||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+      <!-- Editable doc iframe -->
+      <div style="flex:1;overflow:hidden;padding:0;">
+        <iframe id="editFrame"
+          sandbox="allow-same-origin allow-scripts allow-popups"
+          style="width:100%;height:100%;border:none;"
+          srcdoc="${escapeAttr(injectEditMode(docHtml))}">
+        </iframe>
+      </div>
     </div>`;
   }
-return `<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
-    <!-- Doc toolbar -->
-    <div style="background:${t.card};border-bottom:1px solid ${t.bd};padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 2px 8px ${t.sh};">
-      <button onclick="setState({selDoc:null})" style="display:flex;align-items:center;gap:6px;background:none;border:1px solid ${t.bd};border-radius:8px;padding:7px 13px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;font-size:13px;color:${t.sub};">
-        ${icon('back',15,t.sub)} Quay lại
-      </button>
-      <div style="width:1px;height:24px;background:${t.bd};"></div>
-      <span style="font-size:18px;">${d.icon}</span>
-      <div style="flex:1;min-width:0;">
-        <div style="font-size:14px;font-weight:800;color:${t.txt};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.title}</div>
-        <div style="font-size:11.5px;color:${t.mut};">QC #${d.num} · ${g?.name}</div>
-      </div>
-      <!-- Tags -->
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${d.tags.slice(0,3).map(tag=>`<span style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:6px;background:${gc}12;color:${gc};">#${tag}</span>`).join('')}
-      </div>
-      <!-- Roles -->
-      <div style="display:flex;gap:5px;">
-        ${Object.values(ROLES).map(r=>{
-          const can=r.level>=(d.minLevel||1);
-          return `<div title="${r.name}" style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:${can?r.color+'12':'transparent'};border:1px solid ${can?r.color:t.bd};opacity:${can?1:.4};">
-            <span style="font-size:11px;">${r.icon}</span>
-            <span style="font-size:10px;font-weight:700;color:${can?r.color:t.mut};">${r.short}</span>
-          </div>`;
-        }).join('')}
-      </div>
-      <!-- Bookmark -->
-      <button onclick="toggleBookmark('${id}')" style="width:36px;height:36px;border-radius:9px;background:${bm?'#fff3e0':t.inp};border:1px solid ${bm?'#ff9800':t.bd};cursor:pointer;display:flex;align-items:center;justify-content:center;">
-        ${icon(bm?'bmf':'bm',18,bm?'#e65100':t.mut)}
-      </button>
-      <!-- Fullscreen toggle -->
-      <button onclick="toggleFullscreen()" id="fsBtn" style="width:36px;height:36px;border-radius:9px;background:${t.inp};border:1px solid ${t.bd};cursor:pointer;display:flex;align-items:center;justify-content:center;" title="Mở rộng">
-        ${icon('expand',16,t.mut)}
-      </button>
-    
-      ${perm.editDocs ? `
-        <button onclick="setState({editingDoc:'${id}',editDocHtml:DOCS_HTML['${id}']?.html||''})"
-          style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;background:linear-gradient(135deg,#e65100,#ff9800);color:white;border:none;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-weight:600;font-size:12.5px;">✏️ Chỉnh sửa</button>
-      ` : ''}
-      <span style="font-size:11px;color:${t.mut};margin-left:auto;">Cập nhật: ${DOC_META[id]?.updatedAt||''}</span></div>
-    <!-- iframe -->
-    <iframe id="docFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
-      style="flex:1;width:100%;border:none;background:white;"
-      srcdoc="${escapeAttr(injectLinkFix(DOCS_HTML[id]?.html || '<p>Đang tải...</p>'))}">
-    </iframe>
-  </div>`;
-}
-
-function injectLinkFix(html) {
-  const fix = `<script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&a.href&&!a.href.startsWith(location.origin)&&a.href.startsWith('http')){e.preventDefault();window.open(a.href,'_blank','noopener,noreferrer');}});<\/script>`;
-  return html.replace('</body>', fix + '</body>');
-}
-function escapeAttr(s) {
-  return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-/* ══════════════════════════════════════
-   HOME PAGE
-══════════════════════════════════════ */
-function renderHome() {
-  const t = th();
-  const user = state.user;
-  const role = ROLES[user.role];
-  const visibleCount = ALL_DOC_KEYS.filter(id=>canView(id)).length;
 
   return `<div style="flex:1;overflow-y:auto;padding:28px 32px;" class="fu">
     <div style="margin-bottom:28px;">
