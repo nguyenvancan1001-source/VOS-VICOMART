@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VicoMart — Cổng Thông Tin Nội Bộ v3.0</title>
+<title>VicoMart — Cổng Thông Tin Nội Bộ v4.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -33,11 +33,11 @@ const ROLES={
   NV:{id:'NV',name:'Nhân Viên',short:'NV',level:1,color:'#546e7a',icon:'👤'},
 };
 const PERMS={
-  BGD:{editDocs:true,sendNotif:true,manageUsers:true,viewSalary:true,viewReports:true,exportData:true},
-  GSV:{editDocs:true,sendNotif:true,manageUsers:false,viewSalary:true,viewReports:true,exportData:true},
-  QLCH:{editDocs:false,sendNotif:true,manageUsers:false,viewSalary:false,viewReports:true,exportData:false},
-  TL:{editDocs:false,sendNotif:false,manageUsers:false,viewSalary:false,viewReports:false,exportData:false},
-  NV:{editDocs:false,sendNotif:false,manageUsers:false,viewSalary:false,viewReports:false,exportData:false},
+  BGD:{editDocs:true,editAllDocs:true,sendNotif:true,manageUsers:true,editPerms:true,viewSalary:true,viewReports:true,exportData:true,viewAdmin:true},
+  GSV:{editDocs:true,editAllDocs:false,sendNotif:true,manageUsers:false,editPerms:false,viewSalary:true,viewReports:true,exportData:true,viewAdmin:false},
+  QLCH:{editDocs:true,editAllDocs:false,sendNotif:true,manageUsers:false,editPerms:false,viewSalary:false,viewReports:true,exportData:false,viewAdmin:false},
+  TL:{editDocs:false,editAllDocs:false,sendNotif:false,manageUsers:false,editPerms:false,viewSalary:false,viewReports:false,exportData:false,viewAdmin:false},
+  NV:{editDocs:false,editAllDocs:false,sendNotif:false,manageUsers:false,editPerms:false,viewSalary:false,viewReports:false,exportData:false,viewAdmin:false},
 };
 const BRANCHES={ALL:'Toàn hệ thống',PHB:'Phú Bài',VIT:'Vinh Thanh',THA:'Thuận An'};
 const USERS=[
@@ -142,6 +142,7 @@ let state = {
   editingDoc: null,
   docEdits: {},
   docUpdates: {},
+  adminTab: 'perms',
 
   user: null,
   page: 'home',      // home | docs | analytics | users
@@ -299,6 +300,170 @@ function doLogin() {
   if(found){setState({loginLoading:false,user:found});loadUserData(found);}
   else setState({loginLoading:false,loginErr:'Sai tên đăng nhập hoặc mật khẩu'});
 }
+function renderAdmin() {
+  const t = th();
+  const perm = PERMS[state.user.role];
+  if(!perm.viewAdmin) return `<div style="padding:40px;color:${t.mut};">Không có quyền truy cập.</div>`;
+
+  const tab = state.adminTab || 'perms';
+
+  const PERM_LABELS = {
+    editDocs:     {lbl:'Chỉnh sửa tài liệu (phân quyền)', icon:'✏️'},
+    editAllDocs:  {lbl:'Chỉnh sửa TẤT CẢ tài liệu', icon:'📝'},
+    sendNotif:    {lbl:'Gửi thông báo', icon:'🔔'},
+    manageUsers:  {lbl:'Quản lý nhân sự', icon:'👥'},
+    editPerms:    {lbl:'Chỉnh sửa phân quyền', icon:'🔐'},
+    viewSalary:   {lbl:'Xem lương', icon:'💰'},
+    viewReports:  {lbl:'Xem báo cáo', icon:'📊'},
+    exportData:   {lbl:'Xuất dữ liệu', icon:'📤'},
+    viewAdmin:    {lbl:'Truy cập trang Quản trị', icon:'⚙️'},
+  };
+
+  const tabs = [
+    {id:'perms', lbl:'🔐 Phân quyền vai trò'},
+    {id:'users', lbl:'👥 Tài khoản người dùng'},
+    {id:'docs',  lbl:'📄 Lịch sử chỉnh sửa'},
+  ];
+
+  // TAB: PHÂN QUYỀN
+  const tabPerms = () => {
+    const roleList = Object.keys(ROLES);
+    return `
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:${t.nav};">
+            <th style="padding:12px 16px;text-align:left;color:white;border-radius:10px 0 0 0;min-width:160px;">Quyền hạn</th>
+            ${roleList.map(r=>`<th style="padding:12px 14px;text-align:center;color:white;min-width:90px;">${ROLES[r].icon} ${ROLES[r].short}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${Object.entries(PERM_LABELS).map(([key,info],ri)=>`
+          <tr style="background:${ri%2===0?t.bg:t.card};border-bottom:1px solid ${t.bd};">
+            <td style="padding:11px 16px;font-weight:600;color:${t.txt};">${info.icon} ${info.lbl}</td>
+            ${roleList.map(role=>{
+              const val = PERMS[role][key];
+              const canChange = perm.editPerms && !(role==='BGD' && key==='editAllDocs');
+              return `<td style="text-align:center;padding:11px 14px;">
+                ${canChange
+                  ? `<input type="checkbox" ${val?'checked':''} 
+                      onchange="togglePerm('${role}','${key}',this.checked)"
+                      style="width:18px;height:18px;cursor:pointer;accent-color:${ROLES[role].color};">`
+                  : `<span style="font-size:16px;">${val?'✅':'—'}</span>`}
+              </td>`;
+            }).join('')}
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:${t.bg};border-radius:10px;border-left:4px solid #1565c0;font-size:13px;color:${t.mut};">
+      ℹ️ BGĐ luôn có quyền chỉnh sửa tất cả tài liệu. Thay đổi quyền có hiệu lực ngay lập tức trong phiên này.
+    </div>`;
+  };
+
+  // TAB: TÀI KHOẢN
+  const tabUsers = () => `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;">
+      ${USERS.map((u,i)=>{
+        const r = ROLES[u.role];
+        const p = PERMS[u.role];
+        const editableRoles = ['BGD','GSV','QLCH','TL','NV'];
+        return `<div style="background:${t.card};border-radius:14px;padding:18px 20px;border:1.5px solid ${t.bd};box-shadow:0 2px 8px ${t.sh};">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div style="width:42px;height:42px;border-radius:50%;background:${r.color}18;display:flex;align-items:center;justify-content:center;font-size:20px;">${u.avatar}</div>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:14px;color:${t.txt};">${u.name}</div>
+              <div style="font-size:12px;color:${t.mut};">@${u.username} · ${u.branch==='ALL'?'Toàn chuỗi':u.branch}</div>
+            </div>
+            <span style="padding:3px 10px;border-radius:8px;background:${r.color}18;color:${r.color};font-size:11.5px;font-weight:700;">${r.short}</span>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="font-size:12px;font-weight:600;color:${t.mut};margin-bottom:6px;">Vai trò:</div>
+            <select onchange="changeUserRole('${u.id}',this.value)" 
+              style="width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid ${t.bd};background:${t.inp};color:${t.txt};font-family:'Be Vietnam Pro',sans-serif;font-size:13px;cursor:pointer;">
+              ${editableRoles.map(rl=>`<option value="${rl}" ${u.role===rl?'selected':''}>${ROLES[rl].icon} ${ROLES[rl].name}</option>`).join('')}
+            </select>
+          </div>
+          <div style="font-size:12px;color:${t.mut};margin-bottom:8px;font-weight:600;">Quyền hiện tại:</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            ${Object.entries(p).filter(([k,v])=>v).map(([k])=>`
+              <span style="font-size:11px;padding:2px 8px;border-radius:6px;background:${r.color}12;color:${r.color};border:1px solid ${r.color}30;">
+                ${PERM_LABELS[k]?.icon||'•'} ${k}
+              </span>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // TAB: LỊCH SỬ CHỈNH SỬA
+  const tabDocs = () => {
+    const updates = Object.entries(state.docUpdates||{});
+    if(!updates.length) return `<div style="padding:40px;text-align:center;color:${t.mut};">Chưa có tài liệu nào được chỉnh sửa.</div>`;
+    return `
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="background:${t.nav};">
+          <th style="padding:11px 16px;text-align:left;color:white;">Tài liệu</th>
+          <th style="padding:11px 16px;text-align:left;color:white;">Thời gian cập nhật</th>
+          <th style="padding:11px 16px;text-align:center;color:white;">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${updates.map(([id,ts],i)=>{
+          const d = DOC_META[id];
+          return `<tr style="background:${i%2===0?t.bg:t.card};border-bottom:1px solid ${t.bd};">
+            <td style="padding:11px 16px;">
+              <span style="font-size:16px;margin-right:8px;">${d?.icon||'📄'}</span>
+              <span style="font-weight:600;color:${t.txt};">${d?.title||id}</span>
+            </td>
+            <td style="padding:11px 16px;color:${t.mut};">✏️ ${ts}</td>
+            <td style="padding:11px 16px;text-align:center;">
+              <button onclick="openDoc('${id}')" style="padding:5px 14px;border-radius:7px;border:1.5px solid #1565c0;background:#e8f1fb;color:#1565c0;font-size:12px;font-weight:700;cursor:pointer;">Xem</button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+  };
+
+  return `<div style="flex:1;overflow-y:auto;padding:28px 32px;">
+    <div style="font-size:24px;font-weight:800;color:${t.txt};margin-bottom:4px;">⚙️ Quản Trị Hệ Thống</div>
+    <div style="font-size:13px;color:${t.mut};margin-bottom:24px;">Phân quyền · Tài khoản · Lịch sử chỉnh sửa — Chỉ BGĐ truy cập</div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;border-bottom:2px solid ${t.bd};padding-bottom:0;">
+      ${tabs.map(tb=>`
+        <button onclick="setState({adminTab:'${tb.id}'})"
+          style="padding:10px 20px;border:none;border-bottom:3px solid ${tab===tb.id?'#1565c0':'transparent'};
+          background:transparent;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-size:13.5px;
+          font-weight:${tab===tb.id?700:500};color:${tab===tb.id?'#1565c0':t.mut};margin-bottom:-2px;transition:all .15s;">
+          ${tb.lbl}
+        </button>`).join('')}
+    </div>
+
+    <!-- Tab content -->
+    <div style="margin-top:4px;">
+      ${tab==='perms' ? tabPerms() : tab==='users' ? tabUsers() : tabDocs()}
+    </div>
+  </div>`;
+}
+
+function togglePerm(role, key, val) {
+  PERMS[role][key] = val;
+  setState({adminTab: state.adminTab});
+  showToast((val?'✅ Đã bật: ':'❌ Đã tắt: ') + role + ' → ' + key);
+}
+
+function changeUserRole(userId, newRole) {
+  const u = USERS.find(x=>x.id===userId);
+  if(!u) return;
+  const oldRole = u.role;
+  u.role = newRole;
+  setState({adminTab: state.adminTab});
+  showToast('✅ ' + u.name + ': ' + oldRole + ' → ' + newRole);
+}
+
+
 function renderApp() {
   const t = th();
   const user = state.user;
@@ -313,7 +478,7 @@ function renderApp() {
       <!-- Logo -->
       <div style="padding:${state.sideCollapsed?'18px 12px':'18px 18px'};border-bottom:1px solid rgba(255,255,255,0.10);display:flex;align-items:center;gap:12px;min-height:64px;">
         <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏪</div>
-        ${!state.sideCollapsed?`<div style="overflow:hidden;"><div style="font-size:15px;font-weight:900;color:white;white-space:nowrap;">VicoMart</div><div style="font-size:10px;color:rgba(255,255,255,0.45);white-space:nowrap;">Cổng nội bộ v3.0</div></div>`:''}
+        ${!state.sideCollapsed?`<div style="overflow:hidden;"><div style="font-size:15px;font-weight:900;color:white;white-space:nowrap;">VicoMart</div><div style="font-size:10px;color:rgba(255,255,255,0.45);white-space:nowrap;">Cổng nội bộ v4.0</div></div>`:''}
       </div>
       <!-- Nav items -->
       <nav style="flex:1;padding:14px 8px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;">
@@ -322,6 +487,7 @@ function renderApp() {
           {id:'docs',ic:'book',lbl:'Quy chế',show:true},
           {id:'analytics',ic:'chart',lbl:'Phân tích',show:perm.viewReports},
           {id:'users',ic:'users',lbl:'Nhân sự',show:perm.manageUsers},
+          {id:'admin',ic:'settings',lbl:'Quản trị',show:!!perm.viewAdmin},
         ].filter(n=>n.show).map(n=>{
           const active = state.page===n.id;
           return `<button onclick="navTo('${n.id}')" style="display:flex;align-items:center;gap:10px;padding:10px ${state.sideCollapsed?'0':'12px'};border-radius:10px;border:none;cursor:pointer;background:${active?'rgba(255,255,255,0.18)':'transparent'};color:${active?'white':'rgba(255,255,255,0.65)'};font-family:'Be Vietnam Pro',sans-serif;font-weight:${active?700:500};font-size:13.5px;transition:all .15s;text-align:left;width:100%;justify-content:${state.sideCollapsed?'center':'flex-start'};"
@@ -451,6 +617,7 @@ function renderPageContent() {
   if(state.page==='docs') return renderDocs();
   if(state.page==='analytics') return renderAnalytics();
   if(state.page==='users') return renderUsers();
+  if(state.page==='admin') return renderAdmin();
   return renderHome();
 }
 
@@ -462,7 +629,7 @@ function renderDocViewer() {
   const gc = g?.color || '#1565c0';
   const bm = state.bookmarks.includes(id);
   const perm = PERMS[state.user.role];
-  const canEdit = perm.editDocs;
+  const canEdit = perm.editAllDocs || (perm.editDocs && d?.category !== 'RESTRICTED');
   const isVOS = d?.category === 'VOS PRO';
   const updatedAt = state.docUpdates?.[id];
 
