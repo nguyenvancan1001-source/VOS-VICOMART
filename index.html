@@ -174,27 +174,6 @@ let state = {
   userAddForm: {username:'',name:'',pw:'',role:'NV',branch:'PHB',dept:''},
 };
 
-function injectEditMode(html) {
-  // Make body contenteditable for direct text editing
-  const editScript = `<style>
-    body { outline: none; }
-    [contenteditable]:focus { outline: 2px solid #1565c0; outline-offset: 2px; border-radius: 4px; }
-    p:empty:before { content: '\00a0'; }
-  </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Make all text nodes editable
-      document.querySelectorAll('p,h1,h2,h3,h4,h5,li,td,th,span,div').forEach(function(el) {
-        if(el.children.length === 0 || el.tagName === 'TD' || el.tagName === 'TH') {
-          el.contentEditable = 'true';
-          el.style.cursor = 'text';
-        }
-      });
-    });
-  <\/script>`;
-  return html.replace('</head>', editScript + '</head>');
-}
-
 function setState(updates) {
   Object.assign(state, updates);
   render();
@@ -501,7 +480,7 @@ function renderDocViewer() {
         <iframe id="editFrame"
           sandbox="allow-same-origin allow-scripts allow-popups"
           style="width:100%;height:100%;border:none;"
-          srcdoc="${escapeAttr(injectEditMode(docHtml))}">
+          id="editFrame" srcdoc="${escapeAttr(docHtml)}" onload="(function(f){try{f.contentDocument.body.contentEditable='true';f.contentDocument.querySelectorAll('p,h1,h2,h3,h4,h5,li,td,th').forEach(function(e){e.contentEditable='true';});}catch(ex){}})(this)">
         </iframe>
       </div>
     </div>`;
