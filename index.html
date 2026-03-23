@@ -430,7 +430,7 @@ function renderKySo() {
     ${tab==='ky-tai-lieu'
       ? renderKyTab()
       : `<iframe sandbox="allow-same-origin allow-scripts" style="flex:1;width:100%;border:none;background:white;"
-           srcdoc="${escapeAttr(DOCS_HTML[iframeKeys[tab]]?.html || '<p>Đang tải...</p>')}"></iframe>`
+           srcdoc="${escapeAttr((window.DOCS_HTML||{})[iframeKeys[tab]]?.html || '<p>Đang tải...</p>')}"></iframe>`
     }
   </div>`;
 }
@@ -847,7 +847,7 @@ function renderDocViewer() {
     <iframe id="docFrame_${id}" sandbox="allow-same-origin allow-scripts"
       style="flex:1;width:100%;border:none;background:white;"
       onload="initDocFrame('${id}')"
-      srcdoc="${escapeAttr(state.docEdits?.[id] || DOCS_HTML[id]?.html || '<p>Đang tải...</p>')}">
+      srcdoc="${escapeAttr(state.docEdits?.[id] || (window.DOCS_HTML||{})[id]?.html || '<p>Đang tải...</p>')}">
     </iframe>
   </div>`;
 }
@@ -1357,7 +1357,7 @@ render();
      PLACEHOLDER — DOCS_HTML injected here
 ═══════════════════════════════════════ -->
 <script id="docsData">
-const DOCS_HTML = {
+window.DOCS_HTML = {
   d01: {html:`<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -23506,7 +23506,7 @@ function toggleFaq(el){
   el.classList.toggle('open');
   el.nextElementSibling.classList.toggle('open');
 }
-</script>
+<\/script>
 </body>
 </html>`},
   ky_tracker: {html:`<!DOCTYPE html>
@@ -23834,7 +23834,7 @@ function showToast(msg){
 }
 
 renderTable();
-</script>
+<\/script>
 </body>
 </html>`},
   ky_checklist: {html:`<!DOCTYPE html>
@@ -24129,7 +24129,7 @@ function applyChecks(){
 }
 
 applyChecks();
-</script>
+<\/script>
 </body>
 </html>`},
   ky_workflow: {html:`<!DOCTYPE html>
@@ -24448,7 +24448,7 @@ function copyMsg(){
     setTimeout(()=>event.target.textContent='📋 Copy tin nhắn',2000);
   });
 }
-</script>
+<\/script>
 </body>
 </html>`},
 };
